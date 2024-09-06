@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .all-items a {
+    background: white; /* Default background color for inactive links */
+    color: black; /* Default text color for inactive links */
+  }
+  .all-items a:hover {
+    opacity: 0.75; /* Slight opacity on hover */
+  }
+  .active {
+    background: black !important;
+    color: white !important;
+  }
+  .isActive{
+    background: black !important;
+    color: white !important;
+  }
+}
+
+.isActive{
+  background: black !important;
+  color: white !important;
+}
