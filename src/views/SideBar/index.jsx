@@ -3,9 +3,9 @@ import { FaHome, FaTrophy, FaUsers, FaCalendarAlt, FaUserGraduate, FaEnvelope, F
 
 const SideBar = () => {
   return (
-    <nav className="w-64 bg-white text-black h-screen sticky top-0 p-4">
+    <nav className="w-64 bg-white text-[#737791] h-screen sticky top-0 p-4">
       {/* Title */}
-      <h1 className="text-3xl font-bold mt-5 mb-10">Club Sphere</h1>
+      <h1 className="text-3xl text-[#151D48] font-bold mt-5 mb-10">Club Sphere</h1>
 
       {/* Navigation Links */}
       <ul className="space-y-2">
@@ -14,7 +14,7 @@ const SideBar = () => {
             to="/"
             end
             className={({ isActive }) =>
-              `flex items-center py-2 px-4 rounded-lg transition-colors duration-200 ${
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
                 isActive ? 'bg-black text-white' : ' hover:bg-gray-200'
               }`
             }
@@ -26,7 +26,7 @@ const SideBar = () => {
           <NavLink
             to="/leaderboard"
             className={({ isActive }) =>
-              `flex items-center py-2 px-4 rounded-lg transition-colors duration-200 ${
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
                 isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
               }`
             }
@@ -38,7 +38,7 @@ const SideBar = () => {
           <NavLink
             to="/clubs"
             className={({ isActive }) =>
-              `flex items-center py-2 px-4 rounded-lg transition-colors duration-200 ${
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
                 isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
               }`
             }
@@ -50,7 +50,7 @@ const SideBar = () => {
           <NavLink
             to="/events"
             className={({ isActive }) =>
-              `flex items-center py-2 px-4 rounded-lg transition-colors duration-200 ${
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
                 isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
               }`
             }
@@ -62,7 +62,7 @@ const SideBar = () => {
           <NavLink
             to="/students"
             className={({ isActive }) =>
-              `flex items-center py-2 px-4 rounded-lg transition-colors duration-200 ${
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
                 isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
               }`
             }
@@ -74,7 +74,7 @@ const SideBar = () => {
           <NavLink
             to="/messages"
             className={({ isActive }) =>
-              `flex items-center py-2 px-4 rounded-lg transition-colors duration-200 ${
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
                 isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
               }`
             }
@@ -86,7 +86,7 @@ const SideBar = () => {
           <NavLink
             to="/settings"
             className={({ isActive }) =>
-              `flex items-center py-2 px-4 rounded-lg transition-colors duration-200 ${
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
                 isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
               }`
             }
@@ -98,7 +98,7 @@ const SideBar = () => {
           <NavLink
             to="/signout"
             className={({ isActive }) =>
-              `flex items-center py-2 px-4 rounded-lg transition-colors duration-200 ${
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
                 isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
               }`
             }

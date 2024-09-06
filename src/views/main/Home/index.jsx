@@ -268,7 +268,7 @@ const Home = () => {
 
   return (
     <div className="bg-gray-100 font-sans leading-normal tracking-normal">
-      <div className="right flex-1 p-4 md:p-8">
+      <div className="right flex-1 p-2 md:p-2">
         <div className="flex">
           <div className="m-2 w-7/12 rounded-lg bg-white p-5 shadow-md">
             <div className="mb-6 flex items-center justify-between">
@@ -286,33 +286,29 @@ const Home = () => {
               </div>
             </div>
             <div className="cards grid grid-cols-1 gap-6 md:grid-cols-4">
-              <div className="rounded-lg bg-pink-200 p-4 pb-10">
-                <div className="mb-2 flex items-center">
-                  <i className="fas fa-calendar-alt mr-3 text-2xl text-pink-500"></i>
-                  <p className="text-xl font-bold text-gray-900">1k</p>
-                </div>
-                <p className="text-sm text-gray-700">Total Events</p>
+
+              <div className="rounded-lg flex flex-col justify-between bg-pink-200 p-4">
+                <i className="fas fa-calendar-alt mr-3 text-2xl text-pink-500"></i>
+                <p className="text-3xl font-bold text-gray-900 py-3">1k</p>
+                <p className="text-md text-gray-700">Total Events</p>
               </div>
-              <div className="rounded-lg bg-yellow-200 p-4 pb-10">
-                <div className="mb-2 flex items-center">
-                  <i className="fas fa-users mr-3 text-2xl text-yellow-500"></i>
-                  <p className="text-xl font-bold text-gray-900">300</p>
-                </div>
-                <p className="text-sm text-gray-700">Total Participants</p>
+
+              <div className="rounded-lg flex flex-col justify-between bg-yellow-200 p-4">
+                <i className="fas fa-users mr-3 text-2xl text-yellow-500"></i>
+                <p className="text-3xl font-bold text-gray-900 ">300</p>
+                <p className="text-md text-gray-700">Total Participants</p>
               </div>
-              <div className="rounded-lg bg-green-200 p-4 pb-10">
-                <div className="mb-2 flex items-center">
-                  <i className="fas fa-calendar-check mr-3 text-2xl text-green-500"></i>
-                  <p className="text-xl font-bold text-gray-900">5</p>
-                </div>
-                <p className="text-sm text-gray-700">Upcoming Events</p>
+
+              <div className="rounded-lg flex flex-col justify-between bg-green-200 p-4">
+                <i className="fas fa-calendar-check mr-3 text-2xl text-green-500"></i>
+                <p className="text-3xl font-bold text-gray-900">5</p>
+                <p className="text-md text-gray-700">Upcoming Events</p>
               </div>
-              <div className="rounded-lg bg-purple-200 p-4 pb-10">
-                <div className="mb-2 flex items-center">
-                  <i className="fas fa-user-plus mr-3 text-2xl text-purple-500"></i>
-                  <p className="text-xl font-bold text-gray-900">8</p>
-                </div>
-                <p className="text-sm text-gray-700">New Users</p>
+
+              <div className="rounded-lg flex flex-col justify-between bg-purple-200 p-4">
+                <i className="fas fa-user-plus mr-3 text-2xl text-purple-500"></i>
+                <p className="text-3xl font-bold text-gray-900">8</p>
+                <p className="text-md text-gray-700">New Users</p>
               </div>
             </div>
           </div>
@@ -393,7 +389,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="mt-6 flex">
+        <div className="flex">
           <div className="m-2 w-5/12 rounded-lg bg-white p-6 shadow-md">
             <h2 className="mb-4 mt-6 text-xl font-bold text-gray-900">
               Yesterday&apos;s Top Events

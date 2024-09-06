@@ -9,7 +9,7 @@ const Header = () => {
         <input
           type="text"
           placeholder="Search here..."
-          className="w-full rounded-lg bg-black p-2 px-4 opacity-85"
+          className="w-full rounded-lg bg-[#F9FAFB] p-2 px-4 opacity-85"
         />
       </div>
       <div className="flex w-4/12 gap-4 items-center justify-center">

@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 @layer utilities {
+
+
   .all-items a {
     background: white; /* Default background color for inactive links */
     color: black; /* Default text color for inactive links */
