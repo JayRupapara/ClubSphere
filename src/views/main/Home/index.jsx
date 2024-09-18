@@ -38,24 +38,19 @@ const Home = () => {
           datasets: [
             {
               label: "Loyal Users",
-              data: [
-                100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200,
-              ],
+              data: [100, 600, 300, 400, 500, 800, 700, 600, 900, 400, 1100, 1200],
               borderColor: "rgb(255, 99, 132)",
               fill: false,
             },
             {
               label: "New Users",
-              data: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600],
+              data: [150, 500, 250, 450, 350, 100, 200, 50, 600, 550, 300, 400],
               borderColor: "rgb(54, 162, 235)",
               fill: false,
             },
             {
               label: "Unique Users",
-              data: [
-                150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 1650,
-                1800,
-              ],
+              data: [1200, 1650, 750, 1500, 1350, 600, 1050, 1800, 300, 450, 900,150],
               borderColor: "rgb(75, 192, 192)",
               fill: false,
             },
@@ -92,19 +87,13 @@ const Home = () => {
           datasets: [
             {
               label: "Last Month",
-              data: [
-                3004, 3200, 3400, 3600, 3800, 4000, 4200, 4400, 4600, 4800,
-                5000, 5200,
-              ],
+              data: [4200, 3600, 5000, 3004, 4800, 3200, 4400, 3800, 4600, 3400, 5200, 4000],
               borderColor: "rgb(75, 192, 192)",
               fill: false,
             },
             {
               label: "This Month",
-              data: [
-                4504, 4700, 4900, 5100, 5300, 5500, 5700, 5900, 6100, 6300,
-                6500, 6700,
-              ],
+              data: [4900, 6300, 5500, 4504, 5700, 6700, 5100, 5900, 4700, 6100, 6500, 5300],
               borderColor: "rgb(153, 102, 255)",
               fill: false,
             },
@@ -270,7 +259,8 @@ const Home = () => {
     <div className="bg-gray-100 font-sans leading-normal tracking-normal">
       <div className="right flex-1 p-2 md:p-2">
         <div className="flex">
-          <div className="m-2 w-7/12 rounded-lg bg-white p-5 shadow-md">
+
+          <div className="m-2 w-7/12 rounded-lg bg-white p-5 shadow-sm">
             <div className="mb-6 flex items-center justify-between">
               <div className="mx-2">
                 <p className="font-bold">Today&apos; Event</p>
@@ -313,7 +303,7 @@ const Home = () => {
             </div>
           </div>
           <div className="m-2 w-5/12">
-            <div className="rounded-lg bg-white p-6 shadow-md">
+            <div className="rounded-lg bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Visitor Insights
               </h2>
@@ -321,8 +311,8 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="flex w-full">
-          <div className="m-2 w-5/12 rounded-lg bg-white p-6 shadow-md">
+        <div className="flex">
+          <div className="m-2 w-5/12 rounded-lg bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-xl font-bold text-gray-900">
               Current & Upcoming Events
             </h2>
@@ -374,14 +364,14 @@ const Home = () => {
               <hr></hr>
             </ul>
           </div>
-          <div className="flex w-7/12">
-            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-md">
+          <div className="flex">
+            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Student&apos;s Satisfaction
               </h2>
               <canvas id="satisfactionChart"></canvas>
             </div>
-            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-md">
+            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Target vs Reality
               </h2>
@@ -390,7 +380,7 @@ const Home = () => {
           </div>
         </div>
         <div className="flex">
-          <div className="m-2 w-5/12 rounded-lg bg-white p-6 shadow-md">
+          <div className="m-2 w-5/12 rounded-lg bg-white p-6 shadow-sm">
             <h2 className="mb-4 mt-6 text-xl font-bold text-gray-900">
               Yesterday&apos;s Top Events
             </h2>
@@ -417,14 +407,14 @@ const Home = () => {
               <hr></hr>
             </ol>
           </div>
-          <div className="flex w-7/12">
-            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-md">
+          <div className="flex w-auto">
+            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Popular Domains
               </h2>
               <canvas id="popularDomainsChart"></canvas>
             </div>
-            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-md">
+            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Preference Time
               </h2>
