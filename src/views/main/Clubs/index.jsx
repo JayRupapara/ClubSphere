@@ -65,12 +65,11 @@ const ClubInsights = () => {
   };
 
   return (
-
-    <div className="bg-gray-100 font-sans leading-normal tracking-normal">
-      <div className="right flex-1 p-2 m-2">
+    <div className="bg-gray-100 leading-normal tracking-normal">
+      <div className="right flex-1 p-4 ">
 
         {/* Summary Boxes */}
-        <div className="rounded-lg mt-3">
+        <div className="rounded-lg mb-3">
           <div className=" w-7/12 rounded-lg bg-white p-5 shadow-md">
             <div className="mb-6 flex items-center justify-between">
               <div className="mx-2">

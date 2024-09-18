@@ -257,7 +257,7 @@ const Home = () => {
 
   return (
     <div className="bg-gray-100 font-sans leading-normal tracking-normal">
-      <div className="right flex-1 p-2 md:p-2">
+      <div className="right flex-1 p-2">
         <div className="flex">
 
           <div className="m-2 w-7/12 rounded-lg bg-white p-5 shadow-sm">
