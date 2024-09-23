@@ -66,51 +66,63 @@ const ClubInsights = () => {
 
   return (
     <div className="bg-gray-100 leading-normal tracking-normal">
-      <div className="right flex-1 p-4 ">
+      <div className="right flex-1 p-2">
 
         {/* Summary Boxes */}
-        <div className="rounded-lg mb-3">
-          <div className=" w-7/12 rounded-lg bg-white p-5 shadow-md">
-            <div className="mb-6 flex items-center justify-between">
-              <div className="mx-2">
-                <p className="font-bold">Club Insights</p>
-                <p className="text-xs opacity-50">Summary</p>
-              </div>
-              <div>
-                <button
-                  type="button"
-                  className="rounded-md border-2 p-1 px-3 text-black"
-                >
-                  <i></i> Export
-                </button>
-              </div>
+        <div className="rounded-lg mb-3 flex justify-between">
+        <div className="m-2 w-9/12 rounded-lg bg-white p-5 shadow-md">
+  <div className="mb-6 flex items-center justify-between">
+    <div className="mx-2">
+      <p className="font-bold">Club Insights</p>
+      <p className="text-xs opacity-50">Summary</p>
+    </div>
+    <div>
+      <button
+        type="button"
+        className="rounded-md border-2 p-1 px-3 text-black"
+      >
+        <i></i> Export
+      </button>
+    </div>
+  </div>
+  
+  <div className="cards grid grid-cols-1 gap-6 md:grid-cols-5">
+    <div className="rounded-lg flex flex-col justify-between bg-pink-200 p-4">
+      <i className="fas fa-calendar-alt mr-3 text-2xl text-pink-500"></i>
+      <p className="text-3xl font-bold text-gray-900 py-3">27</p>
+      <p className="text-md text-gray-700">Registered Clubs</p>
+    </div>
+
+    <div className="rounded-lg flex flex-col justify-between bg-green-200 p-4">
+      <i className="fas fa-check-circle mr-3 text-2xl text-green-500"></i>
+      <p className="text-3xl font-bold text-gray-900">20</p>
+      <p className="text-md text-gray-700">Approved Clubs</p>
+    </div>
+
+    <div className="rounded-lg flex flex-col justify-between bg-yellow-200 p-4">
+      <i className="fas fa-clock mr-3 text-2xl text-yellow-500"></i>
+      <p className="text-3xl font-bold text-gray-900">7</p>
+      <p className="text-md text-gray-700">Pending Clubs</p>
+    </div>
+
+    <div className="rounded-lg flex flex-col justify-between bg-purple-200 p-4">
+      <i className="fas fa-users mr-3 text-2xl text-purple-500"></i>
+      <p className="text-3xl font-bold text-gray-900">5</p>
+      <p className="text-md text-gray-700">Active Clubs</p>
+    </div>
+
+    <div className="rounded-lg flex flex-col justify-between bg-blue-200 p-4">
+      <i className="fas fa-user-slash mr-3 text-2xl text-blue-500"></i>
+      <p className="text-3xl font-bold text-gray-900">5</p>
+      <p className="text-md text-gray-700">Inactive Clubs</p>
+    </div>
+  </div>
+</div>
+
+          <div className="m-2 w-3/12 bg-white rounded-lg shadow p-6">
+              <h3 className="text-md font-bold mb-4">Popular Domains</h3>
+              <Pie data={popularDomainsData} />
             </div>
-            <div className="cards grid grid-cols-1 gap-6 md:grid-cols-4">
-              <div className="rounded-lg flex flex-col justify-between bg-pink-200 p-4">
-                <i className="fas fa-calendar-alt mr-3 text-2xl text-pink-500"></i>
-                <p className="text-3xl font-bold text-gray-900 py-3">1k</p>
-                <p className="text-md text-gray-700">Total Events</p>
-              </div>
-
-              <div className="rounded-lg flex flex-col justify-between bg-yellow-200 p-4">
-                <i className="fas fa-users mr-3 text-2xl text-yellow-500"></i>
-                <p className="text-3xl font-bold text-gray-900 ">300</p>
-                <p className="text-md text-gray-700">Total Participants</p>
-              </div>
-
-              <div className="rounded-lg flex flex-col justify-between bg-green-200 p-4">
-                <i className="fas fa-calendar-check mr-3 text-2xl text-green-500"></i>
-                <p className="text-3xl font-bold text-gray-900">5</p>
-                <p className="text-md text-gray-700">Upcoming Events</p>
-              </div>
-
-              <div className="rounded-lg flex flex-col justify-between bg-purple-200 p-4">
-                <i className="fas fa-user-plus mr-3 text-2xl text-purple-500"></i>
-                <p className="text-3xl font-bold text-gray-900">8</p>
-                <p className="text-md text-gray-700">New Users</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -148,35 +160,32 @@ const ClubInsights = () => {
           {/* Charts */}
           <div className="lg:col-span-3 space-y-6">
             <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-xl font-semibold mb-4">Popular Domains</h3>
-              <Pie data={popularDomainsData} />
-            </div>
-            <div className="bg-white rounded-lg shadow p-6">
               <h3 className="text-xl font-semibold mb-4">Preference Time</h3>
               <Bar data={preferenceTimeData} options={preferenceTimeOptions} />
             </div>
+            <div className="bg-white rounded-lg shadow p-6 mt-6">
+          <h3 className="text-xl font-semibold mb-4">Explore</h3>
+          <div className="flex flex-col space-y-2">
+            <button className="bg-white w-full text-gray-800 border border-gray-300 px-4 py-2 rounded">Create New Club</button>
+            <button className="bg-white w-full text-gray-800 border border-gray-300 px-4 py-2 rounded">View Free Time Slots</button>
+          </div>
+        </div>
           </div>
         </div>
 
         {/* Explore */}
-        <div className="bg-white rounded-lg shadow p-6 mt-6">
-          <h3 className="text-xl font-semibold mb-4">Explore</h3>
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-            <button className="bg-white text-gray-800 border border-gray-300 px-4 py-2 rounded">Create New Club</button>
-            <button className="bg-white text-gray-800 border border-gray-300 px-4 py-2 rounded">View Free Time Slots</button>
-          </div>
-        </div>
+
       </div>
     </div>
   );
 };
 
-const SummaryBox = ({ title, value, color }) => (
-  <div className={`${color} rounded-lg p-4`}>
-    <div className="text-3xl font-bold">{value}</div>
-    <div>{title}</div>
-  </div>
-);
+// const SummaryBox = ({ title, value, color }) => (
+//   <div className={`${color} rounded-lg p-4`}>
+//     <div className="text-3xl font-bold">{value}</div>
+//     <div>{title}</div>
+//   </div>
+// );
 
 const getStatusColor = (status) => {
   switch (status) {
