@@ -6,7 +6,7 @@ const Events = () => {
       {/* Left section: Filters and event list */}
       <div className="w-8/12 p-4">
         {/* Apply Filters Section */}
-        <div className="bg-white p-4 shadow-md rounded-md mb-6">
+        <div className="bg-white p-4 shadow-md rounded-2xl mb-6">
           <p className="font-bold text-lg">Apply Filters</p>
           <div className="flex mt-4 space-x-3">
             <button className="px-3 py-1 bg-red-200 text-red-500 rounded-full">Today</button>
@@ -19,8 +19,8 @@ const Events = () => {
         {/* Event Cards */}
         <div className="space-y-6">
           {/* Event 1 */}
-          <div className="bg-white p-6 shadow-md rounded-md flex items-center space-x-6">
-            <img src="aws-event.jpg" alt="AWS Event" className="w-40 h-40 rounded-md" />
+          <div className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
+            <img src="aws-event.jpg" alt="AWS Event" className="w-40 h-40 rounded-2xl" />
             <div className="flex-grow">
               <h2 className="font-bold text-xl">AWS Cloud Infrastructure Camp</h2>
               <p className="text-gray-500">About AWS Cloud Infrastructure Camp events and more details</p>
@@ -48,14 +48,14 @@ const Events = () => {
                     <i key={index} className="fas fa-star text-yellow-500"></i>
                   ))}
                 </div>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded-md">Register</button>
+                <button className="px-4 py-2 bg-blue-500 text-white rounded-2xl">Register</button>
               </div>
             </div>
           </div>
 
           {/* Event 2 */}
-          <div className="bg-white p-6 shadow-md rounded-md flex items-center space-x-6">
-            <img src="google-event.jpg" alt="Google Cloud" className="w-40 h-40 rounded-md" />
+          <div className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
+            <img src="google-event.jpg" alt="Google Cloud" className="w-40 h-40 rounded-2xl" />
             <div className="flex-grow">
               <h2 className="font-bold text-xl">Google Cloud Next &#39;24</h2>
               <p className="text-gray-500">About Google Cloud Next events and more details</p>
@@ -83,14 +83,14 @@ const Events = () => {
                     <i key={index} className="fas fa-star text-yellow-500"></i>
                   ))}
                 </div>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded-md">Register</button>
+                <button className="px-4 py-2 bg-blue-500 text-white rounded-2xl">Register</button>
               </div>
             </div>
           </div>
 
           {/* Event 3 */}
-          <div className="bg-white p-6 shadow-md rounded-md flex items-center space-x-6">
-            <img src="ai-ml-event.jpg" alt="AI-ML Meetup" className="w-40 h-40 rounded-md" />
+          <div className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
+            <img src="ai-ml-event.jpg" alt="AI-ML Meetup" className="w-40 h-40 rounded-2xl" />
             <div className="flex-grow">
               <h2 className="font-bold text-xl">AI-ML Meetup</h2>
               <p className="text-gray-500">About AI-ML Meetup events and more details</p>
@@ -118,7 +118,7 @@ const Events = () => {
                     <i key={index} className="fas fa-star text-yellow-500"></i>
                   ))}
                 </div>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded-md">Register</button>
+                <button className="px-4 py-2 bg-blue-500 text-white rounded-2xl">Register</button>
               </div>
             </div>
           </div>
@@ -128,23 +128,23 @@ const Events = () => {
       {/* Right section: Event Summary & Promotion */}
       <div className="w-4/12 p-4">
         {/* Event Summary */}
-        <div className="bg-white p-6 shadow-md rounded-md mb-6">
+        <div className="bg-white p-6 shadow-md rounded-2xl mb-6">
   <p className="font-bold text-lg mb-4">Events Summary</p>
   <div className="mt-4 space-y-4">
     {/* Today's Events */}
-    <div className="flex items-center justify-between bg-red-100 rounded-md px-4 py-3">
+    <div className="flex items-center justify-between bg-red-100 rounded-2xl px-4 py-3">
       <p className="font-bold text-2xl">27</p>
       <p className="text-md font-semibold">Today&#39;s Events</p>
     </div>
     
     {/* Tomorrow's Events */}
-    <div className="flex items-center justify-between bg-yellow-100 rounded-md px-4 py-3">
+    <div className="flex items-center justify-between bg-yellow-100 rounded-2xl px-4 py-3">
       <p className="font-bold text-2xl">12</p>
       <p className="text-md font-semibold">Tomorrow&#39;s Events</p>
     </div>
     
     {/* Yesterday's Events */}
-    <div className="flex items-center justify-between bg-green-100 rounded-md px-4 py-3">
+    <div className="flex items-center justify-between bg-green-100 rounded-2xl px-4 py-3">
       <p className="font-bold text-2xl">14</p>
       <p className="text-md font-semibold">Yesterday&#39;s Events</p>
     </div>
@@ -153,12 +153,12 @@ const Events = () => {
 
 
         {/* Promotion Section */}
-        <div className="bg-white p-6 shadow-md rounded-md">
+        <div className="bg-white p-6 shadow-md rounded-2xl">
           <p className="font-bold text-lg">Promotion</p>
           <img
             src="promotion.jpg"
             alt="Promotion"
-            className="mt-4 w-full rounded-md"
+            className="mt-4 w-full rounded-2xl"
           />
         </div>
       </div>

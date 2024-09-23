@@ -260,7 +260,7 @@ const Home = () => {
       <div className="right flex-1 p-2">
         <div className="flex">
 
-          <div className="m-2 w-7/12 rounded-lg bg-white p-5 shadow-sm">
+          <div className="m-2 w-7/12 rounded-2xl bg-white p-5 shadow-sm">
             <div className="mb-6 flex items-center justify-between">
               <div className="mx-2">
                 <p className="font-bold">Today&apos; Event</p>
@@ -277,25 +277,25 @@ const Home = () => {
             </div>
             <div className="cards grid grid-cols-1 gap-6 md:grid-cols-4">
 
-              <div className="rounded-lg flex flex-col justify-between bg-pink-200 p-4">
+              <div className="rounded-2xl flex flex-col justify-between bg-pink-200 p-4">
                 <i className="fas fa-calendar-alt mr-3 text-2xl text-pink-500"></i>
                 <p className="text-3xl font-bold text-gray-900 py-3">1k</p>
                 <p className="text-md text-gray-700">Total Events</p>
               </div>
 
-              <div className="rounded-lg flex flex-col justify-between bg-yellow-200 p-4">
+              <div className="rounded-2xl flex flex-col justify-between bg-yellow-200 p-4">
                 <i className="fas fa-users mr-3 text-2xl text-yellow-500"></i>
                 <p className="text-3xl font-bold text-gray-900 ">300</p>
                 <p className="text-md text-gray-700">Total Participants</p>
               </div>
 
-              <div className="rounded-lg flex flex-col justify-between bg-green-200 p-4">
+              <div className="rounded-2xl flex flex-col justify-between bg-green-200 p-4">
                 <i className="fas fa-calendar-check mr-3 text-2xl text-green-500"></i>
                 <p className="text-3xl font-bold text-gray-900">5</p>
                 <p className="text-md text-gray-700">Upcoming Events</p>
               </div>
 
-              <div className="rounded-lg flex flex-col justify-between bg-purple-200 p-4">
+              <div className="rounded-2xl flex flex-col justify-between bg-purple-200 p-4">
                 <i className="fas fa-user-plus mr-3 text-2xl text-purple-500"></i>
                 <p className="text-3xl font-bold text-gray-900">8</p>
                 <p className="text-md text-gray-700">New Users</p>
@@ -303,7 +303,7 @@ const Home = () => {
             </div>
           </div>
           <div className="m-2 w-5/12">
-            <div className="rounded-lg bg-white p-6 shadow-sm">
+            <div className="rounded-2xl bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Visitor Insights
               </h2>
@@ -312,7 +312,7 @@ const Home = () => {
           </div>
         </div>
         <div className="flex">
-          <div className="m-2 w-5/12 rounded-lg bg-white p-6 shadow-sm">
+          <div className="m-2 w-5/12 rounded-2xl bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-xl font-bold text-gray-900">
               Current & Upcoming Events
             </h2>
@@ -365,13 +365,13 @@ const Home = () => {
             </ul>
           </div>
           <div className="flex">
-            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-sm">
+            <div className="m-2 w-6/12 rounded-2xl bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Student&apos;s Satisfaction
               </h2>
               <canvas id="satisfactionChart"></canvas>
             </div>
-            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-sm">
+            <div className="m-2 w-6/12 rounded-2xl bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Target vs Reality
               </h2>
@@ -380,7 +380,7 @@ const Home = () => {
           </div>
         </div>
         <div className="flex">
-          <div className="m-2 w-5/12 rounded-lg bg-white p-6 shadow-sm">
+          <div className="m-2 w-5/12 rounded-2xl bg-white p-6 shadow-sm">
             <h2 className="mb-4 mt-6 text-xl font-bold text-gray-900">
               Yesterday&apos;s Top Events
             </h2>
@@ -408,13 +408,13 @@ const Home = () => {
             </ol>
           </div>
           <div className="flex w-auto">
-            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-sm">
+            <div className="m-2 w-6/12 rounded-2xl bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Popular Domains
               </h2>
               <canvas id="popularDomainsChart"></canvas>
             </div>
-            <div className="m-2 w-6/12 rounded-lg bg-white p-6 shadow-sm">
+            <div className="m-2 w-6/12 rounded-2xl bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Preference Time
               </h2>
