@@ -20,7 +20,7 @@ const Events = () => {
         <div className="space-y-6">
           {/* Event 1 */}
           <div className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
-            <img src="aws-event.jpg" alt="AWS Event" className="w-40 h-40 rounded-2xl" />
+            <img src="https://via.placeholder.com/500" alt="AWS Event" className="w-40 h-40 rounded-2xl" />
             <div className="flex-grow">
               <h2 className="font-bold text-xl">AWS Cloud Infrastructure Camp</h2>
               <p className="text-gray-500">About AWS Cloud Infrastructure Camp events and more details</p>
@@ -55,7 +55,7 @@ const Events = () => {
 
           {/* Event 2 */}
           <div className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
-            <img src="google-event.jpg" alt="Google Cloud" className="w-40 h-40 rounded-2xl" />
+            <img src="https://via.placeholder.com/500" alt="Google Cloud" className="w-40 h-40 rounded-2xl" />
             <div className="flex-grow">
               <h2 className="font-bold text-xl">Google Cloud Next &#39;24</h2>
               <p className="text-gray-500">About Google Cloud Next events and more details</p>
@@ -90,7 +90,7 @@ const Events = () => {
 
           {/* Event 3 */}
           <div className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
-            <img src="ai-ml-event.jpg" alt="AI-ML Meetup" className="w-40 h-40 rounded-2xl" />
+            <img src="https://via.placeholder.com/500" alt="AI-ML Meetup" className="w-40 h-40 rounded-2xl" />
             <div className="flex-grow">
               <h2 className="font-bold text-xl">AI-ML Meetup</h2>
               <p className="text-gray-500">About AI-ML Meetup events and more details</p>
@@ -129,34 +129,33 @@ const Events = () => {
       <div className="w-4/12 p-4">
         {/* Event Summary */}
         <div className="bg-white p-6 shadow-md rounded-2xl mb-6">
-  <p className="font-bold text-lg mb-4">Events Summary</p>
-  <div className="mt-4 space-y-4">
-    {/* Today's Events */}
-    <div className="flex items-center justify-between bg-red-100 rounded-2xl px-4 py-3">
-      <p className="font-bold text-2xl">27</p>
-      <p className="text-md font-semibold">Today&#39;s Events</p>
-    </div>
-    
-    {/* Tomorrow's Events */}
-    <div className="flex items-center justify-between bg-yellow-100 rounded-2xl px-4 py-3">
-      <p className="font-bold text-2xl">12</p>
-      <p className="text-md font-semibold">Tomorrow&#39;s Events</p>
-    </div>
-    
-    {/* Yesterday's Events */}
-    <div className="flex items-center justify-between bg-green-100 rounded-2xl px-4 py-3">
-      <p className="font-bold text-2xl">14</p>
-      <p className="text-md font-semibold">Yesterday&#39;s Events</p>
-    </div>
-  </div>
-</div>
+          <p className="font-bold text-lg mb-4">Events Summary</p>
+          <div className="mt-4 space-y-4">
+            {/* Today's Events */}
+            <div className="flex items-center justify-between bg-red-100 rounded-2xl px-4 py-3">
+              <p className="font-bold text-2xl">27</p>
+              <p className="text-md font-semibold">Today&#39;s Events</p>
+            </div>
 
+            {/* Tomorrow's Events */}
+            <div className="flex items-center justify-between bg-yellow-100 rounded-2xl px-4 py-3">
+              <p className="font-bold text-2xl">12</p>
+              <p className="text-md font-semibold">Tomorrow&#39;s Events</p>
+            </div>
+
+            {/* Yesterday's Events */}
+            <div className="flex items-center justify-between bg-green-100 rounded-2xl px-4 py-3">
+              <p className="font-bold text-2xl">14</p>
+              <p className="text-md font-semibold">Yesterday&#39;s Events</p>
+            </div>
+          </div>
+        </div>
 
         {/* Promotion Section */}
         <div className="bg-white p-6 shadow-md rounded-2xl">
           <p className="font-bold text-lg">Promotion</p>
           <img
-            src="promotion.jpg"
+            src="https://via.placeholder.com/500x900"
             alt="Promotion"
             className="mt-4 w-full rounded-2xl"
           />
