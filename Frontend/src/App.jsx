@@ -5,7 +5,6 @@ import Header from "./components/HeaderDashboard";
 const App = () => {
   return (
     <div>
-
         <main>
           <Outlet />
         </main>

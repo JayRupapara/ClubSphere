@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // For navigation after successful login
+import Navbar from '../components/NavbarLandingPage';
 
 const SignInClub = () => {
   const [formData, setFormData] = useState({
@@ -51,6 +52,8 @@ const SignInClub = () => {
   };
 
   return (
+    <div>
+      <Navbar/>
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Sign In as Club</h2>
@@ -97,6 +100,8 @@ const SignInClub = () => {
         </form>
       </div>
     </div>
+    </div>
+
   );
 };
 
