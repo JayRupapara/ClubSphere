@@ -4,7 +4,7 @@ import Error404Image from '../assets/404Img.png'
 
 const Error404 = () => {
     return (
-        <div className="flex items-center justify-center ">
+        <div className="flex items-center justify-center h-screen">
             <div className="text-center">
                 <img src={Error404Image} width={400} alt="" />
                 <h1 className="text-6xl font-bold text-gray-800">404</h1>
