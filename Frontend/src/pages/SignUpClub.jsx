@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Signinclub from './SignInClub'
+
 
 const SignUpClub = () => {
   const [formData, setFormData] = useState({
@@ -43,7 +43,7 @@ const SignUpClub = () => {
         setSuccessMessage('Registration successful! Redirecting to login...');
         // Redirect to SignInClub.jsx after a delay
         setTimeout(() => {
-          navigate('/Signinclub');
+          navigate('/signin-club');
         }, 2000); // Delay for 2 seconds before redirecting
       } else {
         setErrorMessage(result.message || 'Something went wrong');
@@ -60,23 +60,23 @@ const SignUpClub = () => {
 
         {/* Success Popup */}
         {successMessage && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md shadow-md">
             <div className="bg-white p-6 rounded shadow-lg">
               <h3 className="text-lg font-bold text-green-600 mb-4">Success</h3>
               <p className="text-green-500 mb-4">{successMessage}</p>
-              <button
+              {/* <button
                 className="bg-blue-900 text-white py-2 px-4 rounded"
                 onClick={() => setSuccessMessage(null)}
               >
                 Close
-              </button>
+              </button> */}
             </div>
           </div>
         )}
 
         {/* Error Popup */}
         {errorMessage && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md shadow-md">
             <div className="bg-white p-6 rounded shadow-lg">
               <h3 className="text-lg font-bold text-red-600 mb-4">Error</h3>
               <p className="text-red-500 mb-4">{errorMessage}</p>

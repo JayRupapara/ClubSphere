@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const bcrypt = require('bcryptjs');
 
 // Create connection pool for MySQL
 const pool = mysql.createPool({
@@ -25,6 +26,17 @@ app.use(cookieParser());
 
 // Middleware to parse JSON bodies
 router.use(express.json());
+
+const query = (sql, values) => {
+    return new Promise((resolve, reject) => {
+        pool.query(sql, values, (error, results) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve(results);
+        });
+    });
+  };
 
 // 3. Student Sign In
 router.post('/student/signin', async (req, res) => {
@@ -65,7 +77,7 @@ router.post('/student/signin', async (req, res) => {
 });
 
 // 4. Club Sign In
-router.post('/club/signin', async (req, res) => {
+router.post('/club_sign_in', async (req, res) => {
     try {
         const { email, password } = req.body;
 
