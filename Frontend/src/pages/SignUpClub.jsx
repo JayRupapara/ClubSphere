@@ -56,7 +56,7 @@ const SignUpClub = () => {
       <Navbar />
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
-          <h2 className="text-2xl font-bold text-blue-900 mb-6">Register New Club...</h2>
+          <h2 className="text-2xl font-bold text-center mb-6">Register New Club...</h2>
 
           {successMessage && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md shadow-md">
@@ -172,7 +172,7 @@ const SignUpClub = () => {
             </div>
 
             <button
-              className="w-full bg-blue-900 text-white py-2 rounded hover:bg-blue-800 transition"
+              className="w-full bg-black text-white py-2 rounded hover:bg-gray-500 transition"
               type="submit"
             >
               Submit Request

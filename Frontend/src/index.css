@@ -7,6 +7,10 @@
   @apply w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
+/* Add this CSS to your LandingPage or global CSS file */
+.gradient-bg {
+  background: linear-gradient(135deg, #c2c2c2, #ffffff, #c3c3c3);
+}
 
   .all-items a {
     background: white; /* Default background color for inactive links */

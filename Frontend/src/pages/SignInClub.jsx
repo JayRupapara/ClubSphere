@@ -1,5 +1,6 @@
+// src/components/SignInClub.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigation after successful login
+import { useNavigate, Link } from 'react-router-dom'; // Import Link from react-router-dom for navigation
 import Navbar from '../components/NavbarLandingPage';
 
 const SignInClub = () => {
@@ -53,55 +54,64 @@ const SignInClub = () => {
 
   return (
     <div>
-      <Navbar/>
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Sign In as Club</h2>
+      <Navbar />
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
+          <h2 className="text-2xl font-bold text-center mb-6">Sign In as Club</h2>
 
-        {/* Success message */}
-        {successMessage && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-            {successMessage}
+          {/* Success message */}
+          {successMessage && (
+            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+              {successMessage}
+            </div>
+          )}
+
+          {/* Error message */}
+          {errorMessage && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+              {errorMessage}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="Club Email"
+              className="w-full p-3 border rounded mb-4"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              placeholder="Password"
+              className="w-full p-3 border rounded mb-4"
+              required
+            />
+            <button
+              className="bg-blue-800 text-white w-full py-2 rounded hover:bg-blue-900"
+              type="submit"
+            >
+              Sign In
+            </button>
+          </form>
+
+          {/* Not Registered Link */}
+          <div className="mt-6 text-center">
+            <p className="text-sm">
+              Don&#39;t have an account?{' '}
+              <Link to="/signup-club" className="text-indigo-600 hover:underline">
+                Sign Up here
+              </Link>
+            </p>
           </div>
-        )}
-
-        {/* Error message */}
-        {errorMessage && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-            {errorMessage}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            placeholder="Club Email"
-            className="w-full p-3 border rounded mb-4"
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            placeholder="Password"
-            className="w-full p-3 border rounded mb-4"
-            required
-          />
-          <button
-            className="bg-blue-800 text-white w-full py-2 rounded hover:bg-blue-900"
-            type="submit"
-          >
-            Sign In
-          </button>
-        </form>
+        </div>
       </div>
     </div>
-    </div>
-
   );
 };
 
