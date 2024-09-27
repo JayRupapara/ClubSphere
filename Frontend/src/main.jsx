@@ -1,10 +1,9 @@
-// src/main.jsx
 import { StrictMode } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-import LandingPage from './pages/LandingPage.jsx';  // Ensure this page exists
+import LandingPage from './pages/LandingPage.jsx';  
 import SignInAdmin from './pages/SignInAdmin.jsx';
 import SignInStudent from './pages/SignInStudent.jsx';
 import SignInClub from './pages/SignInClub.jsx';
@@ -13,15 +12,20 @@ import SignUpStudent from './pages/SignUpStudent.jsx';
 import SignUpClub from './pages/SignUpClub.jsx';
 import Error404 from './pages/Error404.jsx';
 
+// Import your ClubDashboard layout
+import Home from './pages/club/Home/index.jsx';
+import Leaderboard from './pages/club/Leaderboard/index.jsx';
+import ClubLayout from './dashboards/ClubLayout.jsx';
+
 // Router configuration
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,  // App contains Navbar and Outlet for rendering child routes
+    element: <App />,
     children: [
       {
-        path: '/', // Default route, the landing page
-        element: <LandingPage />,  // Make sure this component is correctly imported and exists
+        path: '/',
+        element: <LandingPage />,
       },
       {
         path: '/signin-admin',
@@ -48,14 +52,27 @@ const router = createBrowserRouter([
         element: <SignUpClub />,
       },
       {
+        path: '/club_dashboard',
+        element: <ClubLayout />,
+        children: [
+          {
+            path: '/club_dashboard',
+            element: <Home />, // Settings page for club
+          },
+          {
+            path: '/club_dashboard/leaderboard',
+            element: <Leaderboard />, // Events management for club
+          },
+        ],
+      },      
+      {
         path: '*',
-        element: <Error404 />,  // For undefined routes
+        element: <Error404 />,
       },
     ],
   },
 ]);
 
-// Rendering the application with RouterProvider
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={router} />

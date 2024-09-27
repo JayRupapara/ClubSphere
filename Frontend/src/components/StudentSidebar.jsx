@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FaHome, FaTrophy, FaUsers, FaCalendarAlt, FaUserGraduate, FaEnvelope, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
-const SideBar = () => {
+const StudentSideBar = () => {
   return (
     <nav className="w-64 bg-white text-[#737791] h-screen sticky top-0 p-4">
       {/* Title */}
@@ -111,4 +111,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default StudentSideBar;

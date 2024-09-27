@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes, useNavigate } from 'react-router-dom';
 
 
-const Header = () => {
+const AdminHeader = () => {
   return (
     <header className="sticky top-0 flex h-fit justify-between bg-white p-6">
       <h1 className="w-4/12 text-2xl font-bold">
@@ -43,4 +43,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminHeader;
