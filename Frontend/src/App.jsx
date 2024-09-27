@@ -4,7 +4,7 @@ import Header from "./components/HeaderDashboard";
 
 const App = () => {
   return (
-    <div>
+    <div >
         <main>
           <Outlet />
         </main>
