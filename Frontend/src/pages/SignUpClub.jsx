@@ -55,12 +55,12 @@ const SignUpClub = () => {
     <div>
       <Navbar />
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+        <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl">
           <h2 className="text-2xl font-bold text-center mb-6">Register New Club...</h2>
 
           {successMessage && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md shadow-md">
-              <div className="bg-white p-6 rounded shadow-lg">
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-2xl shadow-md">
+              <div className="bg-white p-6 rounded-2xl shadow-lg">
                 <h3 className="text-lg font-bold text-green-600 mb-4">Success</h3>
                 <p className="text-green-500 mb-4">{successMessage}</p>
               </div>
@@ -68,12 +68,12 @@ const SignUpClub = () => {
           )}
 
           {errorMessage && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md shadow-md">
-              <div className="bg-white p-6 rounded shadow-lg">
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-2xl shadow-md">
+              <div className="bg-white p-6 rounded-2xl shadow-lg">
                 <h3 className="text-lg font-bold text-red-600 mb-4">Error</h3>
                 <p className="text-red-500 mb-4">{errorMessage}</p>
                 <button
-                  className="bg-blue-900 text-white py-2 px-4 rounded"
+                  className="bg-blue-900 text-white py-2 px-4 rounded-2xl"
                   onClick={() => setErrorMessage(null)}
                 >
                   Close
@@ -92,7 +92,7 @@ const SignUpClub = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Club Name"
-                  className="input-field"
+                  className="input-field rounded-2xl"
                   required
                 />
                 <input
@@ -101,20 +101,20 @@ const SignUpClub = () => {
                   value={formData.category}
                   onChange={handleInputChange}
                   placeholder="Club Category"
-                  className="input-field"
+                  className="input-field rounded-2xl"
                 />
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
                   placeholder="Club Description"
-                  className="input-field col-span-2 resize-none"
+                  className="input-field col-span-2 resize-none rounded-2xl"
                   rows="3"
                 ></textarea>
               </div>
             </div>
 
-            <div className="mb-4">
+            <div className="mb-4 rounded-2xl">
               <h3 className="text-lg font-semibold mb-2">Leadership Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
@@ -123,7 +123,7 @@ const SignUpClub = () => {
                   value={formData.president_name}
                   onChange={handleInputChange}
                   placeholder="Club President Name"
-                  className="input-field"
+                  className="input-field rounded-2xl"
                 />
                 <input
                   type="text"
@@ -131,7 +131,7 @@ const SignUpClub = () => {
                   value={formData.vice_president_name}
                   onChange={handleInputChange}
                   placeholder="Club Vice President Name"
-                  className="input-field"
+                  className="input-field rounded-2xl"
                 />
               </div>
             </div>
@@ -145,7 +145,7 @@ const SignUpClub = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Club Email"
-                  className="input-field"
+                  className="input-field rounded-2xl"
                   required
                 />
                 <input
@@ -154,7 +154,7 @@ const SignUpClub = () => {
                   value={formData.phone_number}
                   onChange={handleInputChange}
                   placeholder="Club Phone Number"
-                  className="input-field"
+                  className="input-field rounded-2xl"
                 />
               </div>
             </div>
@@ -166,13 +166,13 @@ const SignUpClub = () => {
                 value={formData.password}
                 onChange={handleInputChange}
                 placeholder="Password"
-                className="input-field"
+                className="input-field rounded-2xl"
                 required
               />
             </div>
 
             <button
-              className="w-full bg-black text-white py-2 rounded hover:bg-gray-500 transition"
+              className="w-full bg-black text-white py-2 rounded-2xl hover:bg-gray-500 transition"
               type="submit"
             >
               Submit Request

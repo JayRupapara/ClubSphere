@@ -56,19 +56,19 @@ const SignInClub = () => {
     <div>
       <Navbar />
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
+        <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold text-center mb-6">Sign In as Club</h2>
 
           {/* Success message */}
           {successMessage && (
-            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-2xl relative mb-4">
               {successMessage}
             </div>
           )}
 
           {/* Error message */}
           {errorMessage && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-2xl relative mb-4">
               {errorMessage}
             </div>
           )}
@@ -80,7 +80,7 @@ const SignInClub = () => {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="Club Email"
-              className="w-full p-3 border rounded mb-4"
+              className="w-full p-3 border rounded-2xl mb-4"
               required
             />
             <input
@@ -89,11 +89,11 @@ const SignInClub = () => {
               value={formData.password}
               onChange={handleInputChange}
               placeholder="Password"
-              className="w-full p-3 border rounded mb-4"
+              className="w-full p-3 border rounded-2xl mb-4"
               required
             />
             <button
-              className="bg-blue-800 text-white w-full py-2 rounded hover:bg-blue-900"
+              className="bg-black text-white w-full py-2 rounded-2xl hover:bg-gray-700"
               type="submit"
             >
               Sign In

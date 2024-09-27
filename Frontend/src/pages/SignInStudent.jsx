@@ -1,27 +1,34 @@
 // src/components/SignInStudent.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';  // Import Link from react-router-dom for navigation
 import Navbar from "../components/NavbarLandingPage";
 
 const SignInStudent = () => {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div>
       <Navbar />
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
+        <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold text-center mb-6">Sign In as Student</h2>
           <form>
             <input
               type="email"
               placeholder="Student Email"
-              className="w-full p-3 border rounded mb-4"
+              className="w-full p-3 border rounded-2xl mb-4"
             />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
-              className="w-full p-3 border rounded mb-4"
+              className="w-full p-3 border rounded-2xl mb-4"
             />
-            <button className="bg-blue-800 text-white w-full py-2 rounded hover:bg-blue-900">
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-3 cursor-pointer"
+            >
+              {showPassword ? "👁️" : "👁️‍🗨️"}
+            </span>
+            <button className="bg-black text-white w-full py-2 rounded-2xl hover:bg-gray-700">
               Sign In
             </button>
           </form>
