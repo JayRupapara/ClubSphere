@@ -2,10 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-.input-field {
-  @apply w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500;
-}
+@layer utilities {  
 
 /* Add this CSS to your LandingPage or global CSS file */
 .gradient-bg {

@@ -56,7 +56,7 @@ const SignUpClub = () => {
       <Navbar />
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl">
-          <h2 className="text-2xl font-bold text-center mb-6">Register New Club...</h2>
+          <h2 className="text-2xl font-bold text-center mb-6">Register New Club</h2>
 
           {successMessage && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-2xl shadow-md">
@@ -92,7 +92,7 @@ const SignUpClub = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Club Name"
-                  className="input-field rounded-2xl"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
                   required
                 />
                 <input
@@ -101,20 +101,20 @@ const SignUpClub = () => {
                   value={formData.category}
                   onChange={handleInputChange}
                   placeholder="Club Category"
-                  className="input-field rounded-2xl"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
                 />
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
                   placeholder="Club Description"
-                  className="input-field col-span-2 resize-none rounded-2xl"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl resize-none"
                   rows="3"
                 ></textarea>
               </div>
             </div>
 
-            <div className="mb-4 rounded-2xl">
+            <div className="mb-4">
               <h3 className="text-lg font-semibold mb-2">Leadership Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
@@ -123,7 +123,7 @@ const SignUpClub = () => {
                   value={formData.president_name}
                   onChange={handleInputChange}
                   placeholder="Club President Name"
-                  className="input-field rounded-2xl"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
                 />
                 <input
                   type="text"
@@ -131,7 +131,7 @@ const SignUpClub = () => {
                   value={formData.vice_president_name}
                   onChange={handleInputChange}
                   placeholder="Club Vice President Name"
-                  className="input-field rounded-2xl"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
                 />
               </div>
             </div>
@@ -145,7 +145,7 @@ const SignUpClub = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Club Email"
-                  className="input-field rounded-2xl"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
                   required
                 />
                 <input
@@ -154,7 +154,7 @@ const SignUpClub = () => {
                   value={formData.phone_number}
                   onChange={handleInputChange}
                   placeholder="Club Phone Number"
-                  className="input-field rounded-2xl"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
                 />
               </div>
             </div>
@@ -166,7 +166,7 @@ const SignUpClub = () => {
                 value={formData.password}
                 onChange={handleInputChange}
                 placeholder="Password"
-                className="input-field rounded-2xl"
+                className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
                 required
               />
             </div>
