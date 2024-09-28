@@ -3,12 +3,12 @@ const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const vverifyToken = require('../middlewares/middleware.js');
 require('dotenv').config();
-<<<<<<< HEAD
+
 const { student_verifyToken, club_verifyToken, checkRole } = vverifyToken;
-=======
-const { verifyToken, checkRole } = vToken;
+
+const { verifyToken} = vToken;
 const bcrypt = require('bcrypt')
->>>>>>> 3df0bf04d9a8ed372ba3dc03c4414b76500e247d
+
 
 const app = express();
 const router = express.Router();
@@ -23,7 +23,7 @@ const connection = mysql.createConnection({
         // path: process.env.DB_SOCKET_PATH
     });
 
-<<<<<<< HEAD
+
 // Route to add a new user
 // GET /club/dashboard/:club_id
 router.get('/club/dashboard/:club_id', club_verifyToken, (req, res) => {
@@ -50,7 +50,7 @@ router.get('/club/dashboard/:club_id', club_verifyToken, (req, res) => {
     });
   });
   
-=======
+
 const query = (sql, values) => {
   return new Promise((resolve, reject) => {
       connection.query(sql, values, (error, results) => {
@@ -61,7 +61,6 @@ const query = (sql, values) => {
       });
   });
 };
->>>>>>> 3df0bf04d9a8ed372ba3dc03c4414b76500e247d
 
   // GET /club/members/:club_id
 router.get('/club/members/:club_id', club_verifyToken, (req, res) => {
