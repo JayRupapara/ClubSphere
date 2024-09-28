@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-const Home = () => {
+const StudentHome = () => {
   // Ref to hold chart instances
   const visitorChartRef = useRef(null);
   const satisfactionChartRef = useRef(null);
@@ -427,4 +427,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default StudentHome;

@@ -13,12 +13,16 @@ import SignUpClub from './pages/SignUpClub.jsx';
 import Error404 from './pages/Error404.jsx';
 
 import ClubHome from './pages/club/Home/index.jsx';
-import ClubLeaderboard from './pages/club/Leaderboard/index.jsx';
 import ClubLayout from './dashboards/ClubLayout.jsx';
-
-import StudentHome from './pages/club/Home/index.jsx';
-import StudentLeaderboard from './pages/club/Leaderboard/index.jsx';
+import ClubMembers from './pages/club/members/index.jsx';
+import ClubEvents from './pages/club/Events/index.jsx';
+import ClubMessages from './pages/club/Messages/index.jsx';
+import ClubSettings from './pages/club/Settings/index.jsx';
+import ClubSignOut from './pages/club/SignOut/index.jsx';
 import StudentLayout from './dashboards/StudentLyout.jsx';
+import StudentHome from './pages/student/Home/index.jsx';
+import StudentLeaderboard from './pages/student/Leaderboard/index.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -36,18 +40,20 @@ const router = createBrowserRouter([
         path: '/club_dashboard',
         element: <ClubLayout />,
         children: [
-          { path: '', element: <ClubHome /> }, // Default Home component for the dashboard
-          { path: 'leaderboard', element: <ClubLeaderboard /> },
-          // Add other child routes as needed
+          { path: '', element: <ClubHome /> },
+          { path: 'members', element: <ClubMembers /> },  // Newly added
+          { path: 'events', element: <ClubEvents /> },    // Newly added
+          { path: 'messages', element: <ClubMessages /> },// Newly added
+          { path: 'settings', element: <ClubSettings /> },// Newly added
+          { path: 'sign_out', element: <ClubSignOut /> }, // Newly added
         ],
       },
       {
         path: '/student_dashboard',
         element: <StudentLayout />,
         children: [
-          { path: '', element: <StudentHome /> }, // Default Home component for the dashboard
+          { path: '', element: <StudentHome /> },
           { path: 'leaderboard', element: <StudentLeaderboard /> },
-          // Add other child routes as needed
         ],
       },
       { path: '*', element: <Error404 /> },
