@@ -48,24 +48,16 @@ router.post('/student_sign_in', async (req, res) => {
             return res.status(400).json({ message: 'Email and password are required' });
         }
 
-        // Find club by email
+        // Find student by email
         const students = await query('SELECT * FROM student WHERE email = ?', [email]);
         if (students.length === 0) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
         const student = students[0];
-        console.log(student.student_id);
-        
-        // console.log(password);
-        // console.log(student.password);
-        
-        
-        
 
-        // Compare passwords
-        const isPasswordValid = await bcrypt.compare(password, student.password);
-        if (!isPasswordValid) {
+        // Compare plain text passwords
+        if (password !== student.password) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
@@ -75,14 +67,14 @@ router.post('/student_sign_in', async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
-        
 
-        res.json({ message: 'student signed in successfully', token });
+        res.json({ message: 'Student signed in successfully', token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 // 4. Club Sign In
 router.post('/club_sign_in', async (req, res) => {
@@ -102,9 +94,8 @@ router.post('/club_sign_in', async (req, res) => {
 
         const club = clubs[0];
 
-        // Compare passwords
-        const isPasswordValid = await bcrypt.compare(password, club.password);
-        if (!isPasswordValid) {
+        // Compare plain text passwords
+        if (password !== club.password) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
@@ -121,6 +112,7 @@ router.post('/club_sign_in', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 
 module.exports = router;

@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const { student_verifyToken, club_verifyToken, checkRole } = vverifyToken;
 
-const { verifyToken} = vToken;
+// const { verifyToken} = vToken;
 const bcrypt = require('bcrypt')
 
 

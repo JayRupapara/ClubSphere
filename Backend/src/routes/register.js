@@ -81,12 +81,12 @@ router.post('/student_register', async (req, res) => {
       }
 
       // Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
+    //   const hashedPassword = await bcrypt.hash(password, 10);
 
       // Insert new student
       const result = await query(
           'INSERT INTO student (first_name, middle_name, last_name, gender, dob, phone_number, address, college_name, year_of_study, branch, course, interested_in, skills_interest, reason_for_joining_club, previous_club_experience, email, password, profile_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-          [first_name, middle_name, last_name, gender, dob, phone_number, address, college_name, year_of_study, branch, course, interested_in, skills_interest, reason_for_joining_club, previous_club_experience, email, hashedPassword, profile_url]
+          [first_name, middle_name, last_name, gender, dob, phone_number, address, college_name, year_of_study, branch, course, interested_in, skills_interest, reason_for_joining_club, previous_club_experience, email, password, profile_url]
       );
 
       res.status(201).json({ message: 'Student registered successfully', student_id: result.insertId });
@@ -118,12 +118,12 @@ router.post('/club_register', async (req, res) => {
         }
 
         // Hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // const hashedPassword = await bcrypt.hash(password, 10);
 
         // Insert new club
         const result = await query(
             'INSERT INTO club_user (name, category, description, president_name, vice_president_name, email, phone_number, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-            [name, category, description, president_name, vice_president_name, email, phone_number, hashedPassword]
+            [name, category, description, president_name, vice_president_name, email, phone_number, password]
         );
 
         res.status(201).json({ message: 'Club registered successfully', club_id: result.insertId });
