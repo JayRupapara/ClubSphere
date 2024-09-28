@@ -1,6 +1,7 @@
 // src/components/SignInClub.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link from react-router-dom for navigation
+import axios from 'axios'; // Import axios for making HTTP requests
 import Navbar from '../components/NavbarLandingPage';
 
 const SignInClub = () => {
@@ -26,29 +27,31 @@ const SignInClub = () => {
     setSuccessMessage(null); // Clear success messages
 
     try {
-      const response = await fetch('http://localhost:3000/api/login/club_sign_in', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post('http://localhost:3000/api/login/club_sign_in', formData);
+      
+      // Log the response for debugging
+      console.log(response);
 
-      const result = await response.json();
-
-      if (response.ok) {
+      if (response.status === 200) {
         // Successful login
+        const { token } = response.data; // Assuming the JWT token is returned in the response
+
+        // Store the token in local storage
+        localStorage.setItem('jwtToken', token);
+
         setSuccessMessage('Signed in successfully! Redirecting...');
         // Redirect to a club dashboard or another page after successful login
         setTimeout(() => {
           navigate('/club_dashboard'); // Change '/club_dashboard' to your desired page after login
         }, 2000);
-      } else {
-        // Handle invalid email/password or other error
-        setErrorMessage(result.message || 'Invalid email or password');
       }
     } catch (error) {
-      setErrorMessage('Internal server error');
+      if (error.response) {
+        // Handle invalid email/password or other error
+        setErrorMessage(error.response.data.message || 'Invalid email or password');
+      } else {
+        setErrorMessage('Internal server error');
+      }
     }
   };
 

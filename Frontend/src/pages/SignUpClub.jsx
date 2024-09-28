@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios for making HTTP requests
 import Navbar from '../components/NavbarLandingPage';
 
 const SignUpClub = () => {
@@ -28,26 +29,23 @@ const SignUpClub = () => {
     setSuccessMessage(null);
 
     try {
-      const response = await fetch('http://localhost:3000/api/register/club_register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post('http://localhost:3000/api/register/club_register', formData);
 
-      const result = await response.json();
+      // Log the response for debugging
+      console.log(response);
 
-      if (response.ok) {
+      if (response.status === 201) {
         setSuccessMessage('Registration successful! Redirecting to login...');
         setTimeout(() => {
-          navigate('/signin-club');
-        }, 2000);
-      } else {
-        setErrorMessage(result.message || 'Something went wrong');
+          navigate('/signin-club'); // Navigate to sign-in page
+        }, 100);
       }
     } catch (error) {
-      setErrorMessage('Internal server error');
+      if (error.response) {
+        setErrorMessage(error.response.data.message || 'Something went wrong');
+      } else {
+        setErrorMessage('Internal server error');
+      }
     }
   };
 
@@ -103,15 +101,16 @@ const SignUpClub = () => {
                   placeholder="Club Category"
                   className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
                 />
-                <textarea
+              </div>
+
+              <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
                   placeholder="Club Description"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl resize-none"
+                  className="w-full px-3 mt-4 border border-gray-300 rounded-2xl resize-none"
                   rows="3"
                 ></textarea>
-              </div>
             </div>
 
             <div className="mb-4">

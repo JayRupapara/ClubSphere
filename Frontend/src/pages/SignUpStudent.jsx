@@ -1,152 +1,178 @@
-// src/components/SignUpStudent.js
-import React from 'react';
-import { Link } from 'react-router-dom';  // Import Link from react-router-dom for navigation
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';  // For password visibility toggle
 import Navbar from "../components/NavbarLandingPage";
 
 const SignUpStudent = () => {
+  const [formData, setFormData] = useState({
+    first_name: '',
+    middle_name: '',
+    last_name: '',
+    gender: '',  // Gender field is a dropdown now
+    dob: '',
+    phone_number: '',
+    address: '',
+    college_name: '',
+    year_of_study: '',
+    branch: '',
+    course: '',
+    interested_in: '',
+    skills_interest: '',
+    reason_for_joining_club: '',
+    previous_club_experience: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const [error, setError] = useState('');  // Error state for form validation
+  const [loading, setLoading] = useState(false);  // Loading state for API call
+  const [showPassword, setShowPassword] = useState(false);  // For toggling password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();  // To redirect after successful registration
+
+  // Handle input changes
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');  // Reset any previous error
+
+    // Basic validation for required fields and password match
+    if (!formData.first_name || !formData.last_name || !formData.email || !formData.password) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+    
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post('http://localhost:3000/api/register/student_register', formData);
+
+      // If registration is successful, redirect to sign-in page
+      if (response.status === 201) {
+        navigate('/signin-student');
+      }
+    } catch (error) {
+      setLoading(false);
+      if (error.response && error.response.status === 409) {
+        setError('Email already registered.');
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+    }
+  };
+
   return (
     <div>
       <Navbar />
       <div className="flex items-center justify-center min-h-screen py-4 bg-gray-50">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl">
           <h2 className="text-2xl font-bold text-center mb-6">Register as Student</h2>
-          <form>
+
+          {error && <div className="text-red-500 mb-4 text-center">{error}</div>}  {/* Display error messages */}
+
+          <form onSubmit={handleSubmit}>
             {/* Basic Information */}
             <h3 className="text-lg font-semibold mb-4">Basic Information</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              {/* Input fields for Basic Information */}
-              <input
-                type="text"
-                placeholder="First Name *"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Middle Name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Gender"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="date"
-                placeholder="Date of Birth"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Address"
-                className="col-span-2 w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
+              <input type="text" name="first_name" placeholder="First Name *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="text" name="middle_name" placeholder="Middle Name" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="text" name="last_name" placeholder="Last Name *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+
+              {/* Gender dropdown */}
+              <select name="gender" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange}>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+
+              <input type="date" name="dob" placeholder="Date of Birth" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="tel" name="phone_number" placeholder="Phone Number" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="text" name="address" placeholder="Address" className="col-span-2 w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
             </div>
 
             {/* Educational Information */}
             <h3 className="text-lg font-semibold mb-4">Educational Information</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              <input
-                type="text"
-                placeholder="Student ID / Roll Number *"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="College Name *"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Year of Study *"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Branch / Department *"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Course / Program *"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
+              <input type="text" name="college_name" placeholder="College Name *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="text" name="year_of_study" placeholder="Year of Study *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="text" name="branch" placeholder="Branch / Department *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="text" name="course" placeholder="Course / Program *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
             </div>
 
             {/* Club Details */}
             <h3 className="text-lg font-semibold mb-4">Club Details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              <input
-                type="text"
-                placeholder="Club(s) Interested In"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Skills / Interests"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Reason for Joining the Club"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="text"
-                placeholder="Previous Club Experience"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
+              <input type="text" name="interested_in" placeholder="Interested In" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="text" name="skills_interest" placeholder="Skills/Interests" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="text" name="reason_for_joining_club" placeholder="Reason for Joining Club" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+              <input type="text" name="previous_club_experience" placeholder="Previous Club Experience" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
             </div>
 
             {/* Confidential Details */}
             <h3 className="text-lg font-semibold mb-4">Confidential Details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className="w-full px-3 py-2 border border-gray-300 rounded-2xl "
-              />
+              <input type="email" name="email" placeholder="Email *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+
+              {/* Password field with icon for visibility toggle */}
+              <div className="relative w-full">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder="Password *"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
+                  onChange={handleChange}
+                />
+                <div
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </div>
+              </div>
+
+              {/* Confirm Password field with icon */}
+              <div className="relative w-full">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  name="confirmPassword"
+                  placeholder="Confirm Password *"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
+                  onChange={handleChange}
+                />
+                <div
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </div>
+              </div>
             </div>
 
             {/* Submit Button */}
             <div className="mt-6">
-              <button
-                type="submit"
-                className="w-full bg-black text-white py-2 px-4 rounded-2xl hover:bg-gray-500 "
-              >
-                Register
+              <button type="submit" className="w-full bg-blue-500 text-white rounded-2xl py-2 hover:bg-blue-600 focus:outline-none">
+                {loading ? 'Loading...' : 'Sign Up'}
               </button>
             </div>
-          </form>
 
-          {/* Already Registered Link */}
-          <div className="mt-6 text-center">
-            <p className="text-sm">
-              Already registered?{" "}
-              <Link to="/signin-student" className="text-indigo-600 hover:underline">
-                Sign In here
-              </Link>
+            {/* Link to Sign In */}
+            <p className="mt-4 text-center">
+              Already have an account? <Link to="/signin-student" className="text-blue-500 hover:underline">Sign In</Link>
             </p>
-          </div>
+          </form>
         </div>
       </div>
     </div>

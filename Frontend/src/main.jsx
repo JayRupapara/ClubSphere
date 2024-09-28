@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-import LandingPage from './pages/LandingPage.jsx';  
+import LandingPage from './pages/LandingPage.jsx';
 import SignInAdmin from './pages/SignInAdmin.jsx';
 import SignInStudent from './pages/SignInStudent.jsx';
 import SignInClub from './pages/SignInClub.jsx';
@@ -12,9 +12,13 @@ import SignUpStudent from './pages/SignUpStudent.jsx';
 import SignUpClub from './pages/SignUpClub.jsx';
 import Error404 from './pages/Error404.jsx';
 
-import Home from './pages/club/Home/index.jsx';
-import Leaderboard from './pages/club/Leaderboard/index.jsx';
+import ClubHome from './pages/club/Home/index.jsx';
+import ClubLeaderboard from './pages/club/Leaderboard/index.jsx';
 import ClubLayout from './dashboards/ClubLayout.jsx';
+
+import StudentHome from './pages/club/Home/index.jsx';
+import StudentLeaderboard from './pages/club/Leaderboard/index.jsx';
+import StudentLayout from './dashboards/StudentLyout.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,11 +36,20 @@ const router = createBrowserRouter([
         path: '/club_dashboard',
         element: <ClubLayout />,
         children: [
-          { path: '', element: <Home /> }, // Default Home component for the dashboard
-          { path: 'leaderboard', element: <Leaderboard /> },
+          { path: '', element: <ClubHome /> }, // Default Home component for the dashboard
+          { path: 'leaderboard', element: <ClubLeaderboard /> },
           // Add other child routes as needed
         ],
-      },      
+      },
+      {
+        path: '/student_dashboard',
+        element: <StudentLayout />,
+        children: [
+          { path: '', element: <StudentHome /> }, // Default Home component for the dashboard
+          { path: 'leaderboard', element: <StudentLeaderboard /> },
+          // Add other child routes as needed
+        ],
+      },
       { path: '*', element: <Error404 /> },
     ],
   },
