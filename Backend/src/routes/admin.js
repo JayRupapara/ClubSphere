@@ -14,7 +14,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-const { verifyToken, checkRole } = vverifyToken;
+const { student_verifyToken, club_verifyToken, checkRole } = vverifyToken;
 
 // Database connection
 const connection = mysql.createConnection({

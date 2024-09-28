@@ -39,7 +39,7 @@ const query = (sql, values) => {
   };
 
 // 3. Student Sign In
-router.post('/student/signin', async (req, res) => {
+router.post('/student_sign_in', async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -48,13 +48,20 @@ router.post('/student/signin', async (req, res) => {
             return res.status(400).json({ message: 'Email and password are required' });
         }
 
-        // Find student by email
+        // Find club by email
         const students = await query('SELECT * FROM student WHERE email = ?', [email]);
         if (students.length === 0) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
         const student = students[0];
+        console.log(student.student_id);
+        
+        // console.log(password);
+        // console.log(student.password);
+        
+        
+        
 
         // Compare passwords
         const isPasswordValid = await bcrypt.compare(password, student.password);
@@ -68,8 +75,9 @@ router.post('/student/signin', async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
+        
 
-        res.json({ message: 'Student signed in successfully', token });
+        res.json({ message: 'student signed in successfully', token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

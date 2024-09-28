@@ -15,7 +15,36 @@ const pool = mysql.createPool({
 });
 
 // Middleware function to verify JWT token
-const verifyToken = (req, res, next) => {
+const student_verifyToken = (req, res, next) => {
+    const token = req.headers.authorization?.replace("Bearer ", "");
+
+    if (!token) {
+        return res.status(401).json({ error: 'Access denied. No token provided.' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(decoded.student_id);
+
+        pool.query('SELECT * FROM student WHERE student_id = ?', [decoded.student_id], (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+
+            req.user = results[0]; // Attach user information to the request object
+            next();
+        });
+    } catch (err) {
+        return res.status(403).json({ error: 'Invalid token.' });
+    }
+};
+
+const club_verifyToken = (req, res, next) => {
     // const token = req.cookies?.accessToken || req.headers.authorization?.replace("Bearer ", "");
     const token = req.headers.authorization?.replace("Bearer ", "");
 
@@ -26,7 +55,7 @@ const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
 
-        pool.query('SELECT userID, Username, Role FROM users WHERE Username = ?', [decoded.username], (error, results) => {
+        pool.query('SELECT * FROM club_user WHERE club_id = ?', [decoded.club_id], (error, results) => {
             if (error) {
                 console.error(error);
                 return res.status(500).json({ error: 'Internal server error' });
@@ -54,4 +83,4 @@ const checkRole = (requiredRole) => {
     };
 };
 
-module.exports = { verifyToken, checkRole };
+module.exports = { student_verifyToken, club_verifyToken, checkRole };
