@@ -5,8 +5,11 @@ export default {
     "./src/**/*.{js,jsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif'], // Add Poppins as the default sans font
+      },
+    },
   },
   plugins: [],
 }
-
