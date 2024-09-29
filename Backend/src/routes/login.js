@@ -1,22 +1,20 @@
-// Import required modules
 const express = require('express');
-const mysql = require('mysql');
+const { Pool } = require('pg');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-const bcrypt = require('bcryptjs');
 
-// Create connection pool for MySQL
-const pool = mysql.createPool({
-    port : process.env.DB_PORT,
+// Create connection pool for PostgreSQL
+const pool = new Pool({
     host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    timezone: "Z",
-    // port: process.env.DB_PORT,
-    // socketPath: process.env.DB_SOCKET_PATH // Ensure the correct path variable
-});
+    ssl: {
+      require : false
+    },
+  });
 
 // Create express app
 const app = express();
@@ -27,16 +25,14 @@ app.use(cookieParser());
 // Middleware to parse JSON bodies
 router.use(express.json());
 
-const query = (sql, values) => {
-    return new Promise((resolve, reject) => {
-        pool.query(sql, values, (error, results) => {
-            if (error) {
-                return reject(error);
-            }
-            resolve(results);
-        });
-    });
-  };
+const query = async (text, params) => {
+    const client = await pool.connect();
+    try {
+        return await client.query(text, params);
+    } finally {
+        client.release();
+    }
+};
 
 // 3. Student Sign In
 router.post('/student_sign_in', async (req, res) => {
@@ -49,12 +45,12 @@ router.post('/student_sign_in', async (req, res) => {
         }
 
         // Find student by email
-        const students = await query('SELECT * FROM student WHERE email = ?', [email]);
-        if (students.length === 0) {
+        const result = await query('SELECT * FROM student WHERE email = $1', [email]);
+        if (result.rows.length === 0) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        const student = students[0];
+        const student = result.rows[0];
 
         // Compare plain text passwords
         if (password !== student.password) {
@@ -75,7 +71,6 @@ router.post('/student_sign_in', async (req, res) => {
     }
 });
 
-
 // 4. Club Sign In
 router.post('/club_sign_in', async (req, res) => {
     try {
@@ -87,12 +82,12 @@ router.post('/club_sign_in', async (req, res) => {
         }
 
         // Find club by email
-        const clubs = await query('SELECT * FROM club_user WHERE email = ?', [email]);
-        if (clubs.length === 0) {
+        const result = await query('SELECT * FROM club_user WHERE email = $1', [email]);
+        if (result.rows.length === 0) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        const club = clubs[0];
+        const club = result.rows[0];
 
         // Compare plain text passwords
         if (password !== club.password) {
@@ -112,7 +107,5 @@ router.post('/club_sign_in', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-
-
 
 module.exports = router;
