@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-import LandingPage from './pages/LandingPage.jsx';  
+import LandingPage from './pages/LandingPage.jsx';
 import SignInAdmin from './pages/SignInAdmin.jsx';
 import SignInStudent from './pages/SignInStudent.jsx';
 import SignInClub from './pages/SignInClub.jsx';
@@ -12,9 +12,17 @@ import SignUpStudent from './pages/SignUpStudent.jsx';
 import SignUpClub from './pages/SignUpClub.jsx';
 import Error404 from './pages/Error404.jsx';
 
-import Home from './pages/club/Home/index.jsx';
-import Leaderboard from './pages/club/Leaderboard/index.jsx';
+import ClubHome from './pages/club/Home/index.jsx';
 import ClubLayout from './dashboards/ClubLayout.jsx';
+import ClubMembers from './pages/club/members/index.jsx';
+import ClubEvents from './pages/club/Events/index.jsx';
+import ClubMessages from './pages/club/Messages/index.jsx';
+import ClubSettings from './pages/club/Settings/index.jsx';
+import ClubSignOut from './pages/club/SignOut/index.jsx';
+import StudentLayout from './dashboards/StudentLyout.jsx';
+import StudentHome from './pages/student/Home/index.jsx';
+import StudentLeaderboard from './pages/student/Leaderboard/index.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -32,11 +40,22 @@ const router = createBrowserRouter([
         path: '/club_dashboard',
         element: <ClubLayout />,
         children: [
-          { path: '', element: <Home /> }, // Default Home component for the dashboard
-          { path: 'leaderboard', element: <Leaderboard /> },
-          // Add other child routes as needed
+          { path: '', element: <ClubHome /> },
+          { path: 'members', element: <ClubMembers /> },  // Newly added
+          { path: 'events', element: <ClubEvents /> },    // Newly added
+          { path: 'messages', element: <ClubMessages /> },// Newly added
+          { path: 'settings', element: <ClubSettings /> },// Newly added
+          { path: 'sign_out', element: <ClubSignOut /> }, // Newly added
         ],
-      },      
+      },
+      {
+        path: '/student_dashboard',
+        element: <StudentLayout />,
+        children: [
+          { path: '', element: <StudentHome /> },
+          { path: 'leaderboard', element: <StudentLeaderboard /> },
+        ],
+      },
       { path: '*', element: <Error404 /> },
     ],
   },

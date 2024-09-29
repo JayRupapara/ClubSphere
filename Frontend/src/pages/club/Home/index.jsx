@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-const Home = () => {
+const ClubHome = () => {
   // Ref to hold chart instances
   const visitorChartRef = useRef(null);
   const satisfactionChartRef = useRef(null);
@@ -38,7 +38,9 @@ const Home = () => {
           datasets: [
             {
               label: "Loyal Users",
-              data: [100, 600, 300, 400, 500, 800, 700, 600, 900, 400, 1100, 1200],
+              data: [
+                100, 600, 300, 400, 500, 800, 700, 600, 900, 400, 1100, 1200,
+              ],
               borderColor: "rgb(255, 99, 132)",
               fill: false,
             },
@@ -50,7 +52,10 @@ const Home = () => {
             },
             {
               label: "Unique Users",
-              data: [1200, 1650, 750, 1500, 1350, 600, 1050, 1800, 300, 450, 900,150],
+              data: [
+                1200, 1650, 750, 1500, 1350, 600, 1050, 1800, 300, 450, 900,
+                150,
+              ],
               borderColor: "rgb(75, 192, 192)",
               fill: false,
             },
@@ -87,13 +92,19 @@ const Home = () => {
           datasets: [
             {
               label: "Last Month",
-              data: [4200, 3600, 5000, 3004, 4800, 3200, 4400, 3800, 4600, 3400, 5200, 4000],
+              data: [
+                4200, 3600, 5000, 3004, 4800, 3200, 4400, 3800, 4600, 3400,
+                5200, 4000,
+              ],
               borderColor: "rgb(75, 192, 192)",
               fill: false,
             },
             {
               label: "This Month",
-              data: [4900, 6300, 5500, 4504, 5700, 6700, 5100, 5900, 4700, 6100, 6500, 5300],
+              data: [
+                4900, 6300, 5500, 4504, 5700, 6700, 5100, 5900, 4700, 6100,
+                6500, 5300,
+              ],
               borderColor: "rgb(153, 102, 255)",
               fill: false,
             },
@@ -133,7 +144,7 @@ const Home = () => {
       popularDomainsChartRef.current.destroy();
     }
     const popularDomainsChartElement = document.getElementById(
-      "popularDomainsChart",
+      "popularDomainsChart"
     );
     if (popularDomainsChartElement) {
       const popularDomainsCtx = popularDomainsChartElement.getContext("2d");
@@ -162,7 +173,7 @@ const Home = () => {
     }
 
     const preferenceTimeChartElement = document.getElementById(
-      "preferenceTimeChart",
+      "preferenceTimeChart"
     );
     if (preferenceTimeChartElement) {
       const preferenceTimeCtx = preferenceTimeChartElement.getContext("2d");
@@ -259,7 +270,6 @@ const Home = () => {
     <div className="bg-gray-100 font-sans leading-normal tracking-normal">
       <div className="right flex-1 p-2">
         <div className="flex">
-
           <div className="m-2 w-7/12 rounded-2xl bg-white p-5 shadow-sm">
             <div className="mb-6 flex items-center justify-between">
               <div className="mx-2">
@@ -276,7 +286,6 @@ const Home = () => {
               </div>
             </div>
             <div className="cards grid grid-cols-1 gap-6 md:grid-cols-4">
-
               <div className="rounded-2xl flex flex-col justify-between bg-pink-200 p-4">
                 <i className="fas fa-calendar-alt mr-3 text-2xl text-pink-500"></i>
                 <p className="text-3xl font-bold text-gray-900 py-3">1k</p>
@@ -380,33 +389,6 @@ const Home = () => {
           </div>
         </div>
         <div className="flex">
-          <div className="m-2 w-5/12 rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 mt-6 text-xl font-bold text-gray-900">
-              Yesterday&apos;s Top Events
-            </h2>
-            <ol className="flex flex-col">
-              <li className="m-2 flex justify-between">
-                Home Decor Range
-                <p className="text-blue-500">45%</p>
-              </li>
-              <hr></hr>
-              <li className="m-2 flex justify-between">
-                Disney Princess Pink Bag 18”
-                <p className="text-pink-500">29%</p>
-              </li>
-              <hr></hr>
-              <li className="m-2 flex justify-between">
-                Bathroom Essentials
-                <p className="text-purple-500">18%</p>
-              </li>
-              <hr></hr>
-              <li className="m-2 flex justify-between">
-                Apple Smartwatches
-                <p className="text-orange-500">25%</p>
-              </li>
-              <hr></hr>
-            </ol>
-          </div>
           <div className="flex w-auto">
             <div className="m-2 w-6/12 rounded-2xl bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
@@ -421,10 +403,24 @@ const Home = () => {
               <canvas id="preferenceTimeChart"></canvas>
             </div>
           </div>
+          <div className="m-2 w-5/12 rounded-2xl bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">Explore</h2>
+            <div className="flex flex-col items-center gap-4 p-4 w-full">
+              <button className="w-full py-2 border border-gray-300 text-gray-800 rounded-lg hover:bg-gray-100">
+                Add New Club Member
+              </button>
+              <button className="w-full py-2 border border-gray-300 text-gray-800 rounded-lg hover:bg-gray-100">
+                View Free Time Slots
+              </button>
+              <button className="w-full py-2 bg-red-100 text-red-700 border border-red-300 rounded-lg hover:bg-red-200">
+                Schedule or Host New Event
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Home;
+export default ClubHome;

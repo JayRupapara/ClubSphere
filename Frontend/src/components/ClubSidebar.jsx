@@ -1,5 +1,13 @@
 import { NavLink } from "react-router-dom";
-import { FaHome, FaTrophy, FaUsers, FaCalendarAlt, FaUserGraduate, FaEnvelope, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { 
+  FaHome, 
+  FaTrophy, 
+  FaUsers, 
+  FaCalendarAlt, 
+  FaEnvelope, 
+  FaCog, 
+  FaSignOutAlt 
+} from 'react-icons/fa';
 
 const ClubSideBar = () => {
   return (
@@ -21,17 +29,64 @@ const ClubSideBar = () => {
         </li>
         <li>
           <NavLink
-            to="/club_dashboard/leaderboard"
+            to="/club_dashboard/members"
             className={({ isActive }) =>
               `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
                 isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
               }`
             }
           >
-            <FaTrophy className="mr-2" /> Leaderboard
+            <FaUsers className="mr-2" /> Members
           </NavLink>
         </li>
-        {/* Add other navigation links here */}
+        <li>
+          <NavLink
+            to="/club_dashboard/events"
+            className={({ isActive }) =>
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
+                isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
+              }`
+            }
+          >
+            <FaCalendarAlt className="mr-2" /> Events
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/club_dashboard/messages"
+            className={({ isActive }) =>
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
+                isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
+              }`
+            }
+          >
+            <FaEnvelope className="mr-2" /> Messages
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/club_dashboard/settings"
+            className={({ isActive }) =>
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
+                isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
+              }`
+            }
+          >
+            <FaCog className="mr-2" /> Settings
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/sign_out"
+            className={({ isActive }) =>
+              `flex items-center py-3 px-6 rounded-2xl transition-colors duration-200 ${
+                isActive ? 'bg-black text-white' : 'hover:bg-gray-200'
+              }`
+            }
+          >
+            <FaSignOutAlt className="mr-2" /> Sign Out
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );

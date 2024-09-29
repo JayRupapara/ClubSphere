@@ -14,7 +14,7 @@ const leaderboardData = [
   { rank: 11, name: 'AWS Cloud Club Meetup', popularity: '48%', members: '145', events: '3', activeRate: '73%' },
 ];
 
-const Leaderboard = () => {
+const StudentLeaderboard = () => {
   return (
     <div className="container bg-gray-100 mx-auto p-4">
       <div className="overflow-x-auto bg-white rounded-lg shadow-sm">
@@ -69,4 +69,4 @@ const Leaderboard = () => {
   );
 };
 
-export default Leaderboard;
+export default StudentLeaderboard;
