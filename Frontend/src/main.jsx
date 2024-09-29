@@ -19,10 +19,12 @@ import ClubEvents from './pages/club/Events/index.jsx';
 import ClubMessages from './pages/club/Messages/index.jsx';
 import ClubSettings from './pages/club/Settings/index.jsx';
 import ClubSignOut from './pages/club/SignOut/index.jsx';
+import RegisterMember from './pages/club/Home/RegisterMember.jsx';
+import SignInMember from './pages/club/Home/SIgnInMember.jsx';
+
 import StudentLayout from './dashboards/StudentLyout.jsx';
 import StudentHome from './pages/student/Home/index.jsx';
 import StudentLeaderboard from './pages/student/Leaderboard/index.jsx';
-
 
 const router = createBrowserRouter([
   {
@@ -36,18 +38,22 @@ const router = createBrowserRouter([
       { path: '/signup-admin', element: <SignUpAdmin /> },
       { path: '/signup-student', element: <SignUpStudent /> },
       { path: '/signup-club', element: <SignUpClub /> },
+
       {
         path: '/club_dashboard',
         element: <ClubLayout />,
         children: [
           { path: '', element: <ClubHome /> },
-          { path: 'members', element: <ClubMembers /> },  // Newly added
-          { path: 'events', element: <ClubEvents /> },    // Newly added
-          { path: 'messages', element: <ClubMessages /> },// Newly added
-          { path: 'settings', element: <ClubSettings /> },// Newly added
-          { path: 'sign_out', element: <ClubSignOut /> }, // Newly added
+          { path: 'members', element: <ClubMembers /> },
+          { path: 'events', element: <ClubEvents /> },
+          { path: 'messages', element: <ClubMessages /> },
+          { path: 'settings', element: <ClubSettings /> },
+          { path: 'sign_out', element: <ClubSignOut /> },
+          { path: 'register', element: <RegisterMember /> }, // Register Member Route
+          { path: 'signin', element: <SignInMember /> }, // New Sign-In Route for Club Members
         ],
       },
+
       {
         path: '/student_dashboard',
         element: <StudentLayout />,
