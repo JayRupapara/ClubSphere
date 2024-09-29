@@ -89,7 +89,7 @@ router.post('/student_register', async (req, res) => {
           [first_name, middle_name, last_name, gender, dob, phone_number, address, college_name, year_of_study, branch, course, interested_in, skills_interest, reason_for_joining_club, previous_club_experience, email, password, profile_url]
       );
 
-      res.status(201).json({ message: 'Student registered successfully', student_id: result.insertId });
+      res.status(200).json({ message: 'Student registered successfully', student_id: result.insertId });
   } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
@@ -126,7 +126,7 @@ router.post('/club_register', async (req, res) => {
             [name, category, description, president_name, vice_president_name, email, phone_number, password]
         );
 
-        res.status(201).json({ message: 'Club registered successfully', club_id: result.insertId });
+        res.status(200).json({ message: 'Club registered successfully', club_id: result.insertId });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
