@@ -25,6 +25,10 @@ import SignInMember from './pages/club/Home/SIgnInMember.jsx';
 import StudentLayout from './dashboards/StudentLyout.jsx';
 import StudentHome from './pages/student/Home/index.jsx';
 import StudentLeaderboard from './pages/student/Leaderboard/index.jsx';
+import StudentMyActivity from './pages/student/MyActivity/index.jsx';
+import StudentNotification from './pages/student/Notification/index.jsx';
+import StudentSettings from './pages/student/Settings/index.jsx';
+import StudentSignOut from './pages/student/SignOut/index.jsx';
 
 const router = createBrowserRouter([
   {
@@ -49,8 +53,8 @@ const router = createBrowserRouter([
           { path: 'messages', element: <ClubMessages /> },
           { path: 'settings', element: <ClubSettings /> },
           { path: 'sign_out', element: <ClubSignOut /> },
-          { path: 'register', element: <RegisterMember /> }, // Register Member Route
-          { path: 'signin', element: <SignInMember /> }, // New Sign-In Route for Club Members
+          { path: 'register', element: <RegisterMember /> }, 
+          { path: 'signin', element: <SignInMember /> },
         ],
       },
 
@@ -60,6 +64,10 @@ const router = createBrowserRouter([
         children: [
           { path: '', element: <StudentHome /> },
           { path: 'leaderboard', element: <StudentLeaderboard /> },
+          { path: 'my_activity', element: <StudentMyActivity /> },
+          { path: 'notification', element: <StudentNotification /> },
+          { path: 'settings', element: <StudentSettings /> },
+          { path: 'sign_out', element: <StudentSignOut   /> },
         ],
       },
       { path: '*', element: <Error404 /> },

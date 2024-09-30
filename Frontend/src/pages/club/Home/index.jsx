@@ -1,24 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 // Import useNavigate from react-router-dom
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Chart from "chart.js/auto";
 
 const ClubHome = () => {
   const navigate = useNavigate(); // Initialize the navigate function
 
   const handleAddMember = () => {
-    navigate('/club_dashboard/register'); // Navigate to the register page
+    navigate("/club_dashboard/register"); // Navigate to the register page
   };
-  const [members, setMembers] = useState([
-    { name: "John Doe", email: "john@example.com", position: "Attendee", joinDate: "2024-01-01" }
-    // Add initial members here
-  ]);
-  const addMember = (newMember) => {
-    setMembers([...members, { ...newMember, joinDate: new Date().toISOString().split('T')[0] }]);
-  };
-
-
-
 
   // Ref to hold chart instances
   const visitorChartRef = useRef(null);
@@ -424,7 +414,7 @@ const ClubHome = () => {
           <div className="m-2 w-5/12 rounded-2xl bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-xl font-bold text-gray-900">Explore</h2>
             <div className="flex flex-col items-center gap-4 p-4 w-full">
-            <button 
+              <button
                 className="w-full py-2 border border-gray-300 text-gray-800 rounded-lg hover:bg-gray-100"
                 onClick={handleAddMember} // Navigate to register page
               >

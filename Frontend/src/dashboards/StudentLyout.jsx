@@ -1,21 +1,21 @@
 import React from 'react';
-import ClubSidebar from '../components/StudentSidebar.jsx';  // Ensure the correct path to ClubSidebar
-import ClubNavbar from '../components/StudentHeader.jsx';    // Ensure the correct path to ClubHeader
 import { Outlet } from 'react-router-dom';               // To render ClubDashboard or other pages dynamically
+import StudentHeader from '../components/StudentHeader.jsx';
+import StudentSideBar from '../components/StudentSidebar.jsx';
 
 const StudentLayout = () => {
   return (
     <div className="flex h-screen">
       {/* Sidebar Section */}
-      <aside className="bg-gray-800 text-white">
-        <ClubSidebar />  {/* Sidebar component */}
+      <aside>
+        <StudentSideBar />  {/* Sidebar component */}
       </aside>
 
       {/* Main Content Section */}
       <div className="flex-1 flex flex-col">
         {/* Navbar Section */}
         <header>
-          <ClubNavbar />  {/* Navbar component */}
+          <StudentHeader />  {/* Navbar component */}
         </header>
 
         {/* Dashboard Content Section */}
