@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
-const mysql = require('mysql');
+const { Pool } = require('pg'); // Import the Pool class from pg
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const moment = require('moment');
@@ -16,23 +16,26 @@ app.use(express.json());
 
 const { student_verifyToken, club_verifyToken, checkRole } = vverifyToken;
 
-// Database connection
-const connection = mysql.createConnection({
-    port : process.env.DB_PORT,
+// Database connection pool
+
+const pool = new Pool({
     host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    timezone: "Z"
-});
-
-connection.connect((err) => {
+    ssl: {
+      require : false
+    },
+  });
+// Test the database connection
+pool.connect((err) => {
     if (err) {
-        console.error('Error connecting to MySQL:', err.stack);
+        console.error('Error connecting to PostgreSQL:', err.stack);
         return;
     }
-    console.log('Connected to MySQL as id', connection.threadId);
+    console.log('Connected to PostgreSQL');
 });
 
-
+// Export the router
 module.exports = router;
