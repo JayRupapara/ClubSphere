@@ -117,12 +117,12 @@ router.post('/club_register', async (req, res) => {
       }
   
       // Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // const hashedPassword = await bcrypt.hash(password, 10);
   
       // Insert new club without club_id
       const result = await query(
         'INSERT INTO club_user (name, category, description, president_name, vice_president_name, email, phone_number, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING club_id',
-        [name, category, description, president_name, vice_president_name, email, phone_number, hashedPassword]
+        [name, category, description, president_name, vice_president_name, email, phone_number, password]
       );
   
       res.status(200).json({ message: 'Club registered successfully', club_id: result[0].club_id });

@@ -101,7 +101,8 @@ router.post('/club_sign_in', async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        res.json({ message: 'Club signed in successfully', token });
+        // res.json({ message: 'Club signed in successfully', token });
+        res.status(201).json({ message: 'Club signed in successfully', token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

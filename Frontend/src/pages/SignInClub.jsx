@@ -32,7 +32,7 @@ const SignInClub = () => {
       // Log the response for debugging
       console.log(response);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         // Successful login
         const { token } = response.data; // Assuming the JWT token is returned in the response
 
@@ -57,7 +57,7 @@ const SignInClub = () => {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold text-center mb-6">Sign In as Club</h2>
