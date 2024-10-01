@@ -23,7 +23,8 @@ const SignUpStudent = () => {
     previous_club_experience: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    profile_url: ''
   });
 
   const [error, setError] = useState('');  // Error state for form validation
@@ -121,58 +122,39 @@ const SignUpStudent = () => {
               <input type="text" name="previous_club_experience" placeholder="Previous Club Experience" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
             </div>
 
-            {/* Confidential Details */}
-            <h3 className="text-lg font-semibold mb-4">Confidential Details</h3>
+            {/* Authentication Information */}
+            <h3 className="text-lg font-semibold mb-4">Authentication</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
               <input type="email" name="email" placeholder="Email *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
-
-              {/* Password field with icon for visibility toggle */}
-              <div className="relative w-full">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  placeholder="Password *"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
-                  onChange={handleChange}
-                />
-                <div
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
+              
+              <div className="relative">
+                <input type={showPassword ? 'text' : 'password'} name="password" placeholder="Password *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+                <span className="absolute right-3 top-3 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </div>
+                </span>
               </div>
 
-              {/* Confirm Password field with icon */}
-              <div className="relative w-full">
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  name="confirmPassword"
-                  placeholder="Confirm Password *"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-2xl"
-                  onChange={handleChange}
-                />
-                <div
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
+              <div className="relative">
+                <input type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword" placeholder="Confirm Password *" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
+                <span className="absolute right-3 top-3 cursor-pointer" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                   {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                </div>
+                </span>
               </div>
+
+              <input type="text" name="profile_url" placeholder="Profile URL (optional)" className="w-full px-3 py-2 border border-gray-300 rounded-2xl" onChange={handleChange} />
             </div>
 
             {/* Submit Button */}
-            <div className="mt-6">
-              <button type="submit" className="w-full bg-blue-500 text-white rounded-2xl py-2 hover:bg-blue-600 focus:outline-none">
-                {loading ? 'Loading...' : 'Sign Up'}
+            <div className="flex items-center justify-between mt-6">
+              <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded-2xl hover:bg-blue-700 focus:outline-none focus:bg-blue-700">
+                {loading ? 'Registering...' : 'Register'}
               </button>
             </div>
-
-            {/* Link to Sign In */}
-            <p className="mt-4 text-center">
-              Already have an account? <Link to="/signin-student" className="text-blue-500 hover:underline">Sign In</Link>
-            </p>
           </form>
+          
+          <p className="text-sm text-center mt-4">
+            Already have an account? <Link to="/signin-student" className="text-blue-600">Sign in</Link>
+          </p>
         </div>
       </div>
     </div>
