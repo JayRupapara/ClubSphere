@@ -275,73 +275,134 @@ const ClubHome = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6 bg-gray-100">
-      <h2 className="mb-6 text-3xl font-bold text-center">Register New Club Member</h2>
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg space-y-6">
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Basic Information</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Name</label>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              />
+    <div className="bg-gray-100 font-sans leading-normal tracking-normal">
+      <div className="right flex-1 p-2">
+        <div className="flex">
+          <div className="m-2 w-7/12 rounded-2xl bg-white p-5 shadow-sm">
+            <div className="mb-6 flex items-center justify-between">
+              <div className="mx-2">
+                <p className="font-bold">Today&apos; Event</p>
+                <p className="text-xs opacity-50">Summary</p>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  className="rounded-md border-2 p-1 px-3 text-black"
+                >
+                  <i></i> Export
+                </button>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Role</label>
-              <input
-                type="text"
-                required
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              />
+            <div className="cards grid grid-cols-1 gap-6 md:grid-cols-4">
+              <div className="rounded-2xl flex flex-col justify-between bg-pink-200 p-4">
+                <i className="fas fa-calendar-alt mr-3 text-2xl text-pink-500"></i>
+                <p className="text-3xl font-bold text-gray-900 py-3">1k</p>
+                <p className="text-md text-gray-700">Total Events</p>
+              </div>
+
+              <div className="rounded-2xl flex flex-col justify-between bg-yellow-200 p-4">
+                <i className="fas fa-users mr-3 text-2xl text-yellow-500"></i>
+                <p className="text-3xl font-bold text-gray-900 ">300</p>
+                <p className="text-md text-gray-700">Total Participants</p>
+              </div>
+
+              <div className="rounded-2xl flex flex-col justify-between bg-green-200 p-4">
+                <i className="fas fa-calendar-check mr-3 text-2xl text-green-500"></i>
+                <p className="text-3xl font-bold text-gray-900">5</p>
+                <p className="text-md text-gray-700">Upcoming Events</p>
+              </div>
+
+              <div className="rounded-2xl flex flex-col justify-between bg-purple-200 p-4">
+                <i className="fas fa-user-plus mr-3 text-2xl text-purple-500"></i>
+                <p className="text-3xl font-bold text-gray-900">8</p>
+                <p className="text-md text-gray-700">New Users</p>
+              </div>
             </div>
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700">Skills/Interests</label>
-              <input
-                type="text"
-                required
-                value={skills}
-                onChange={(e) => setSkills(e.target.value)}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              />
+          </div>
+          <div className="m-2 w-5/12">
+            <div className="rounded-2xl bg-white p-6 shadow-sm">
+              <h2 className="mb-4 text-xl font-bold text-gray-900">
+                Visitor Insights
+              </h2>
+              <canvas id="visitorChart"></canvas>
             </div>
           </div>
         </div>
-
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Contact Details</h3>
-          <div className="gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email Address</label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              />
+        <div className="flex">
+          <div className="m-2 w-5/12 rounded-2xl bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">
+              Current & Upcoming Events
+            </h2>
+            <ul>
+              <li className="m-2 flex items-center justify-between">
+                <div>
+                  AWS Cloud Club Meetup
+                  <p className="text-xs opacity-70">
+                    Time: 10:00 AM to 12:00 PM
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="h-fit w-3/12 rounded-md bg-green-500 bg-opacity-25 py-2 text-xs"
+                >
+                  Running
+                </button>
+              </li>
+              <hr></hr>
+              <li className="m-2 flex items-center justify-between">
+                <div>
+                  AWS Cloud Club Meetup
+                  <p className="text-xs opacity-70">
+                    Time: 10:00 AM to 12:00 PM
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="h-fit w-3/12 rounded-md bg-yellow-500 bg-opacity-25 py-2 text-xs"
+                >
+                  Next
+                </button>
+              </li>
+              <hr></hr>
+              <li className="m-2 flex items-center justify-between">
+                <div>
+                  AWS Cloud Club Meetup
+                  <p className="text-xs opacity-70">
+                    Time: 10:00 AM to 12:00 PM
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="h-fit w-3/12 rounded-md bg-pink-500 bg-opacity-25 py-2 text-xs"
+                >
+                  Upcoming
+                </button>
+              </li>
+              <hr></hr>
+            </ul>
+          </div>
+          <div className="flex">
+            <div className="m-2 w-6/12 rounded-2xl bg-white p-6 shadow-sm">
+              <h2 className="mb-4 text-xl font-bold text-gray-900">
+                Student&apos;s Satisfaction
+              </h2>
+              <canvas id="satisfactionChart"></canvas>
+            </div>
+            <div className="m-2 w-6/12 rounded-2xl bg-white p-6 shadow-sm">
+              <h2 className="mb-4 text-xl font-bold text-gray-900">
+                Target vs Reality
+              </h2>
+              <canvas id="targetRealityChart"></canvas>
             </div>
           </div>
         </div>
-
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Confidential Details</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              />
+        <div className="flex">
+          <div className="flex w-auto">
+            <div className="m-2 w-6/12 rounded-2xl bg-white p-6 shadow-sm">
+              <h2 className="mb-4 text-xl font-bold text-gray-900">
+                Popular Domains
+              </h2>
+              <canvas id="popularDomainsChart"></canvas>
             </div>
             <div className="m-2 w-6/12 rounded-2xl bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
@@ -368,23 +429,9 @@ const ClubHome = () => {
             </div>
           </div>
         </div>
-
-        <button
-          type="submit"
-          className="w-full bg-black text-white p-3 rounded-md hover:bg-gray-800"
-        >
-          Submit Request
-        </button>
-
-        <p className="text-center mt-4 text-sm">
-          Already Have Account?{' '}
-          <button onClick={handleSignInRedirect} className="text-blue-600">
-            Click Here
-          </button>
-        </p>
-      </form>
+      </div>
     </div>
   );
 };
 
-export default RegisterMember;
+export default ClubHome;
