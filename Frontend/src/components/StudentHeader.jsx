@@ -9,10 +9,10 @@ const StudentHeader = () => {
         <Routes>
           <Route path="/" element={"Home"}></Route>
           <Route path="/Leaderboard" element={"Leaderboard"}></Route>
-          <Route path="/Clubs" element={"Clubs"}></Route>
-          <Route path="/Students" element={"Students"}></Route>
-          <Route path="/Events" element={"Events"}></Route>
-          <Route path="/Messages" element={"Messages"}></Route>
+          <Route path="/my_activity" element={"My Activity"}></Route>
+          {/* <Route path="/Students" element={"Students"}></Route> */}
+          {/* <Route path="/Events" element={"Events"}></Route> */}
+          <Route path="/Notification" element={"Notification"}></Route>
           <Route path="/Settings" element={"Settings"}></Route>
           <Route path="*" element={"logout"}></Route>
         </Routes>   

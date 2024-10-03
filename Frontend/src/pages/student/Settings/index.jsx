@@ -11,7 +11,7 @@ const StudentSettings = () => {
           <li className="text-gray-500 hover:text-gray-700 cursor-pointer">Educational Information</li>
           <li className="text-gray-500 hover:text-gray-700 cursor-pointer">Club Details</li>
           <li className="text-gray-500 hover:text-gray-700 cursor-pointer">Password</li>
-          <li className="text-gray-500 hover:text-gray-700 cursor-pointer">Sign Out</li>
+          {/* <li className="text-gray-500 hover:text-gray-700 cursor-pointer">Sign Out</li> */}
         </ul>
       </aside>
 

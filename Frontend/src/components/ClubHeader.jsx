@@ -8,9 +8,9 @@ const ClubHeader = () => {
       <h1 className="w-4/12 text-2xl font-bold">
         <Routes>
           <Route path="/" element={"Home"}></Route>
-          <Route path="/Leaderboard" element={"Leaderboard"}></Route>
-          <Route path="/Clubs" element={"Clubs"}></Route>
-          <Route path="/Students" element={"Students"}></Route>
+          <Route path="/members" element={"Members"}></Route>
+          {/* <Route path="/Clubs" element={"Clubs"}></Route> */}
+          {/* <Route path="/Students" element={"Students"}></Route> */}
           <Route path="/Events" element={"Events"}></Route>
           <Route path="/Messages" element={"Messages"}></Route>
           <Route path="/Settings" element={"Settings"}></Route>
