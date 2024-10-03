@@ -1,30 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const ClubEvents = () => {
   const [showModal, setShowModal] = useState(false);
-  const [events, setEvents] = useState([
-    {
-      title: "AWS Cloud Infrastructure Camp",
-      description: "About AWS Cloud Infrastructure Camp events and more details",
-      venue: "DEPSTAR, Seminar Hall (329)",
-      time: "10:30 AM",
-      duration: "2 Hours",
-      participants: 67,
-      image: "https://via.placeholder.com/500",
-      rating: 5
-    }
-  ]);
+  const [events, setEvents] = useState([]);
 
   // States for new event form inputs
   const [newEvent, setNewEvent] = useState({
-    title: '',
+    event_name: '',
+    event_type: '',
     description: '',
-    venue: '',
-    time: '',
-    duration: '',
-    participants: '',
-    image: ''
+    event_banner: '',
+    participation_capacity: '',
+    registration_last_date: '',
+    event_date: '',
+    event_start_time: '',
+    event_end_time: '',
+    venue: ''
   });
+
+  // Fetch events from the API when the component mounts
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        // Get the JWT token from localStorage
+        const token = localStorage.getItem('token');
+
+        // Make the GET request to fetch events
+        const response = await axios.get('http://localhost:3000/api/club/events', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        // Set the retrieved events to the state
+        setEvents(response.data.events);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   // Open Modal
   const handleAddEvent = () => {
@@ -45,13 +62,69 @@ const ClubEvents = () => {
     }));
   };
 
-  // Handle the form submission
-  const handleSubmit = (e) => {
+  // Handle the form submission with JWT token and API integration
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newEvent.title && newEvent.venue && newEvent.time) {
-      setEvents([...events, newEvent]);  // Add new event to the list
-      setShowModal(false);  // Close the modal after submission
-      setNewEvent({ title: '', description: '', venue: '', time: '', duration: '', participants: '', image: '' });  // Reset the form
+
+    // Validate if all required fields are filled
+    if (!newEvent.event_name || !newEvent.event_type || !newEvent.participation_capacity ||
+        !newEvent.registration_last_date || !newEvent.event_date || !newEvent.event_start_time ||
+        !newEvent.event_end_time || !newEvent.venue) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+
+    try {
+      // Get JWT token
+      const token = localStorage.getItem('token');
+
+      // Prepare the payload
+      const payload = {
+        event_name: newEvent.event_name,
+        event_type: newEvent.event_type,
+        description: newEvent.description,
+        event_banner: newEvent.event_banner,
+        participation_capacity: newEvent.participation_capacity,
+        registration_last_date: newEvent.registration_last_date,
+        event_date: newEvent.event_date,
+        event_start_time: newEvent.event_start_time,
+        event_end_time: newEvent.event_end_time,
+        venue: newEvent.venue,
+      };
+
+      // Make the POST request to register the new event
+      const response = await axios.post('http://localhost:3000/api/club/club_event_register', payload, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.status === 200) {
+        alert('New Club Event registered successfully');
+        // Add the new event to the list of events
+        setEvents([...events, { ...newEvent, event_id: response.data.event_id }]);
+        setShowModal(false); // Close the modal
+        // Reset the form after successful submission
+        setNewEvent({
+          event_name: '',
+          event_type: '',
+          description: '',
+          event_banner: '',
+          participation_capacity: '',
+          registration_last_date: '',
+          event_date: '',
+          event_start_time: '',
+          event_end_time: '',
+          venue: ''
+        });
+      }
+    } catch (error) {
+      // Handle errors
+      if (error.response) {
+        alert(error.response.data.message || 'An error occurred while registering the event');
+      } else {
+        alert('An error occurred. Please try again.');
+      }
     }
   };
 
@@ -83,9 +156,9 @@ const ClubEvents = () => {
           {/* Map through events to dynamically add event cards */}
           {events.map((event, index) => (
             <div key={index} className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
-              <img src={event.image || "https://via.placeholder.com/500"} alt={event.title} className="w-40 h-40 rounded-2xl" />
+              <img src={event.event_banner || "https://via.placeholder.com/500"} alt={event.event_name} className="w-40 h-40 rounded-2xl" />
               <div className="flex-grow">
-                <h2 className="font-bold text-xl">{event.title}</h2>
+                <h2 className="font-bold text-xl">{event.event_name}</h2>
                 <p className="text-gray-500">{event.description}</p>
                 <div className="mt-4 flex space-x-4">
                   <div className="flex items-center">
@@ -94,23 +167,18 @@ const ClubEvents = () => {
                   </div>
                   <div className="flex items-center">
                     <i className="fas fa-clock text-gray-500 mr-2"></i>
-                    <p className="text-gray-500">{event.time}</p>
-                  </div>
-                  <div className="flex items-center">
-                    <i className="fas fa-hourglass-start text-gray-500 mr-2"></i>
-                    <p className="text-gray-500">{event.duration}</p>
+                    <p className="text-gray-500">{`${new Date(event.event_start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${new Date(event.event_end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`}</p>
                   </div>
                   <div className="flex items-center">
                     <i className="fas fa-users text-gray-500 mr-2"></i>
-                    <p className="text-gray-500">{event.participants} Participants</p>
+                    <p className="text-gray-500">{event.participation_count || 0} Participants</p>
+                  </div>
+                  <div className="flex items-center">
+                    <i className="fas fa-calendar-alt text-gray-500 mr-2"></i>
+                    <p className="text-gray-500">Registration Last Date: {new Date(event.registration_last_date).toLocaleDateString()}</p>
                   </div>
                 </div>
                 <div className="mt-4 flex items-center justify-between">
-                  <div className="flex">
-                    {[...Array(event.rating)].map((_, i) => (
-                      <i key={i} className="fas fa-star text-yellow-500"></i>
-                    ))}
-                  </div>
                   <button className="px-4 py-2 bg-blue-500 text-white rounded-2xl">Register</button>
                 </div>
               </div>
@@ -125,20 +193,10 @@ const ClubEvents = () => {
         <div className="bg-white p-6 shadow-md rounded-2xl mb-6">
           <p className="font-bold text-lg mb-4">Events Summary</p>
           <div className="mt-4 space-y-4">
-            {/* Today's Events */}
+            {/* Placeholder for summary data */}
             <div className="flex items-center justify-between bg-red-100 rounded-2xl px-4 py-3">
-              <p className="font-bold text-2xl">27</p>
-              <p className="text-md font-semibold">Today&#39;s Events</p>
-            </div>
-            {/* Tomorrow's Events */}
-            <div className="flex items-center justify-between bg-yellow-100 rounded-2xl px-4 py-3">
-              <p className="font-bold text-2xl">12</p>
-              <p className="text-md font-semibold">Tomorrow&#39;s Events</p>
-            </div>
-            {/* Yesterday's Events */}
-            <div className="flex items-center justify-between bg-green-100 rounded-2xl px-4 py-3">
-              <p className="font-bold text-2xl">14</p>
-              <p className="text-md font-semibold">Yesterday&#39;s Events</p>
+              <p className="font-bold text-2xl">{events.length}</p>
+              <p className="text-md font-semibold">Total Events</p>
             </div>
           </div>
         </div>
@@ -149,97 +207,113 @@ const ClubEvents = () => {
           <img
             src="https://via.placeholder.com/500x900"
             alt="Promotion"
-            className="mt-4 w-full rounded-2xl"
+            className="w-full h-64 rounded-2xl mt-4"
           />
         </div>
       </div>
 
-      {/* Modal for Adding Event */}
+      {/* Modal for adding new event */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-2xl shadow-md w-1/3">
-            <h2 className="text-xl font-bold mb-4">Add New Event</h2>
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 shadow-md rounded-lg w-96">
+            <h2 className="font-bold text-lg">Add New Event</h2>
             <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Event Name</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={newEvent.title}
-                  onChange={handleChange}
-                  className="mt-1 p-2 block w-full border rounded-md"
-                  placeholder="Event Name"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Location</label>
-                <input
-                  type="text"
-                  name="venue"
-                  value={newEvent.venue}
-                  onChange={handleChange}
-                  className="mt-1 p-2 block w-full border rounded-md"
-                  placeholder="Event Location"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Date & Time</label>
-                <input
-                  type="datetime-local"
-                  name="time"
-                  value={newEvent.time}
-                  onChange={handleChange}
-                  className="mt-1 p-2 block w-full border rounded-md"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Duration</label>
-                <input
-                  type="text"
-                  name="duration"
-                  value={newEvent.duration}
-                  onChange={handleChange}
-                  className="mt-1 p-2 block w-full border rounded-md"
-                  placeholder="Event Duration (e.g., 2 Hours)"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Participants</label>
-                <input
-                  type="number"
-                  name="participants"
-                  value={newEvent.participants}
-                  onChange={handleChange}
-                  className="mt-1 p-2 block w-full border rounded-md"
-                  placeholder="Number of Participants"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Image URL</label>
-                <input
-                  type="text"
-                  name="image"
-                  value={newEvent.image}
-                  onChange={handleChange}
-                  className="mt-1 p-2 block w-full border rounded-md"
-                  placeholder="Image URL (optional)"
-                />
-              </div>
-              <div className="flex justify-end space-x-4">
-                <button
-                  type="button"
-                  onClick={handleCloseModal}
-                  className="px-4 py-2 bg-gray-300 rounded-2xl"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-2xl"
-                >
-                  Add Event
-                </button>
-              </div>
+              <input 
+                type="text" 
+                name="event_name" 
+                value={newEvent.event_name} 
+                onChange={handleChange} 
+                placeholder="Event Name" 
+                required 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <input 
+                type="text" 
+                name="event_type" 
+                value={newEvent.event_type} 
+                onChange={handleChange} 
+                placeholder="Event Type" 
+                required 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <textarea 
+                name="description" 
+                value={newEvent.description} 
+                onChange={handleChange} 
+                placeholder="Description" 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <input 
+                type="text" 
+                name="event_banner" 
+                value={newEvent.event_banner} 
+                onChange={handleChange} 
+                placeholder="Event Banner URL" 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <input 
+                type="number" 
+                name="participation_capacity" 
+                value={newEvent.participation_capacity} 
+                onChange={handleChange} 
+                placeholder="Participation Capacity" 
+                required 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <input 
+                type="date" 
+                name="registration_last_date" 
+                value={newEvent.registration_last_date} 
+                onChange={handleChange} 
+                required 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <input 
+                type="date" 
+                name="event_date" 
+                value={newEvent.event_date} 
+                onChange={handleChange} 
+                required 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <input 
+                type="time" 
+                name="event_start_time" 
+                value={newEvent.event_start_time} 
+                onChange={handleChange} 
+                required 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <input 
+                type="time" 
+                name="event_end_time" 
+                value={newEvent.event_end_time} 
+                onChange={handleChange} 
+                required 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <input 
+                type="text" 
+                name="venue" 
+                value={newEvent.venue} 
+                onChange={handleChange} 
+                placeholder="Venue" 
+                required 
+                className="w-full p-2 border rounded mt-2" 
+              />
+              <button 
+                type="submit" 
+                className="w-full bg-blue-500 text-white py-2 rounded mt-4"
+              >
+                Submit
+              </button>
+              <button 
+                type="button" 
+                onClick={handleCloseModal} 
+                className="w-full bg-gray-300 py-2 rounded mt-2"
+              >
+                Cancel
+              </button>
             </form>
           </div>
         </div>

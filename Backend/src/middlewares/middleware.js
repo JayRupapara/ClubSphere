@@ -11,7 +11,10 @@ const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    port: process.env.DB_PORT, // Ensure this is specified in your .env file
+    port: process.env.DB_PORT,
+    ssl: {
+        require : false
+      } // Ensure this is specified in your .env file
     // ssl: { rejectUnauthorized: false }, // Uncomment if SSL is required
 });
 

@@ -197,63 +197,87 @@ router.post('/eventsByDateTime', club_verifyToken, async (req, res) => {
     }
 });
 
-router.post('/club_member_register', async (req, res) => {
-    try {
-        const {
-            name, role, skills_interest, email, phone_number, password
-        } = req.body;
-  
-        if (!name || !role || !email || !phone_number || !password) {
-            return res.status(400).json({ message: 'Missing required fields' });
-        }
-  
-        const existingUser = await query('SELECT * FROM club_member WHERE email = $1', [email]);
-        if (existingUser.rows.length > 0) {
-            return res.status(409).json({ message: 'Email already registered' });
-        }
-  
-        const hashedPassword = await bcrypt.hash(password, 10);
-  
-        const result = await query(
-            'INSERT INTO club_member (name, role, skills_interest, email, phone_number, password) VALUES ($1, $2, $3, $4, $5, $6) RETURNING member_id',
-            [name, role, skills_interest, email, phone_number, hashedPassword]
-        );
-  
-        res.status(201).json({ message: 'Club Member registered successfully', member_id: result.rows[0].member_id });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
+router.post('/club_member_register', club_verifyToken, async (req, res) => {
+  try {
+      const { name, role, skills_interest, email, phone_number, password } = req.body;
 
+      // Validate required fields
+      if (!name || !role || !email || !phone_number || !password) {
+          return res.status(400).json({ message: 'Missing required fields' });
+      }
+
+      // Check if email already exists in the database
+      const existingUserQuery = 'SELECT * FROM club_member WHERE email = $1';
+      const existingUser = await pool.query(existingUserQuery, [email]);
+
+      if (existingUser.rows.length > 0) {
+          return res.status(409).json({ message: 'Email already registered' });
+      }
+
+      // Hash password before saving it to the database
+      // const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Insert new member into the database
+      const insertQuery = `
+        INSERT INTO club_member (name, role, skills_interest, email, phone_number, password) 
+        VALUES ($1, $2, $3, $4, $5, $6) RETURNING member_id
+      `;
+      const result = await pool.query(insertQuery, [name, role, skills_interest, email, phone_number, password]);
+
+      // Return success response
+      res.status(200).json({ message: 'Club Member registered successfully', member_id: result.rows[0].member_id });
+
+  } catch (error) {
+      console.error('Error in registration:', error); // Log the error for debugging
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+// const query = (text, params) => pool.query(text, params);
 router.post('/club_event_register', async (req, res) => {
-    try {
-        const {
-            event_name, event_type, description, event_banner, participation_capacity,
-            registration_last_date, event_date, event_start_time, event_end_time, venue
-        } = req.body;
-  
-        if (!event_name || !event_type || !participation_capacity || !registration_last_date || 
-            !event_date || !event_start_time || !event_end_time || !venue) {
-            return res.status(400).json({ message: 'Missing required fields' });
-        }
+  try {
+    const {
+      event_name,
+      event_type,
+      description,
+      event_banner,
+      participation_capacity,
+      registration_last_date,
+      event_date,
+      event_start_time,
+      event_end_time,
+      venue
+    } = req.body;
 
-        const existingEvent = await query('SELECT * FROM club_event WHERE event_name = $1', [event_name]);
-        if (existingEvent.rows.length > 0) {
-            return res.status(409).json({ message: 'Event already registered' });
-        }
-  
-        const result = await query(
-            'INSERT INTO club_event (event_name, event_type, description, event_banner, participation_capacity, registration_last_date, event_date, event_start_time, event_end_time, venue) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING event_id',
-            [event_name, event_type, description, event_banner, participation_capacity, registration_last_date, event_date, event_start_time, event_end_time, venue]
-        );
-  
-        res.status(201).json({ message: 'New Club Event registered successfully', event_id: result.rows[0].event_id });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+    // Check for missing required fields
+    if (!event_name || !event_type || !participation_capacity || !registration_last_date ||
+        !event_date || !event_start_time || !event_end_time || !venue) {
+      return res.status(400).json({ message: 'Missing required fields' });
     }
+
+    // Check if an event with the same name already exists
+    const existingEvent = await query('SELECT * FROM club_event WHERE event_name = $1', [event_name]);
+    if (existingEvent.rows.length > 0) {
+      return res.status(409).json({ message: 'Event already registered' });
+    }
+
+    // Insert new event into the club_event table
+    const result = await query(
+      'INSERT INTO club_event (event_name, event_type, description, event_banner, participation_capacity, registration_last_date, event_date, event_start_time, event_end_time, venue) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING event_id',
+      [event_name, event_type, description, event_banner, participation_capacity, registration_last_date, event_date, event_start_time, event_end_time, venue]
+    );
+
+    // Return success response with the new event ID
+    res.status(200).json({
+      message: 'New Club Event registered successfully',
+      event_id: result.rows[0].event_id
+    });
+  } catch (error) {
+    console.error('Error while registering event:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
+
+
 
 router.get('/clubDashboard', club_verifyToken, async (req, res) => {
     const { club_id } = req.user;
@@ -341,5 +365,7 @@ router.get('/clubDashboard', club_verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
 
 module.exports = router;

@@ -62,7 +62,7 @@ const SignUpStudent = () => {
       const response = await axios.post('http://localhost:3000/api/register/student_register', formData);
 
       // If registration is successful, redirect to sign-in page
-      if (response.status === 201) {
+      if (response.status === 200) {
         navigate('/signin-student');
       }
     } catch (error) {

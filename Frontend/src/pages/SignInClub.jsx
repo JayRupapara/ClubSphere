@@ -32,7 +32,7 @@ const SignInClub = () => {
       // Log the response for debugging
       console.log(response);
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         // Successful login
         const { token } = response.data; // Assuming the JWT token is returned in the response
 

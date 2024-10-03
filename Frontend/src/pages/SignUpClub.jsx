@@ -34,7 +34,7 @@ const SignUpClub = () => {
       // Log the response for debugging
       console.log(response);
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         setSuccessMessage('Registration successful! Redirecting to login...');
         setTimeout(() => {
           navigate('/signin-club'); // Navigate to sign-in page
