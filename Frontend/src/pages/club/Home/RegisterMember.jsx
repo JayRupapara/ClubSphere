@@ -1,42 +1,66 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios for API calls
 
 const RegisterMember = ({ addMember }) => {
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
   const [skills, setSkills] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(''); // Added phone number field
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  RegisterMember.propTypes = {
-    addMember: PropTypes.func.isRequired,
-  };
-
   const navigate = useNavigate();
-
-  const handlMembers = () => {
-    navigate('/club_dashboard/members');
-  };
 
   const handleSignInRedirect = () => {
     navigate('/club_dashboard/signin');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords don't match");
       return;
     }
-    addMember({ name, role, skills, email, password });
-    setName('');
-    setRole('');
-    setSkills('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
+
+    try {
+      // Get the JWT token from localStorage (assuming it's stored after login)
+      const token = localStorage.getItem('token');
+
+      // Make the API call to register the club member
+      const response = await axios.post('/club_member_register', 
+        {
+          name, 
+          role, 
+          skills_interest: skills, 
+          email, 
+          phone_number: phoneNumber, 
+          password 
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}` // Pass the JWT token in the header
+          }
+        }
+      );
+      
+      // After successful registration, reset form fields and navigate
+      setName('');
+      setRole('');
+      setSkills('');
+      setEmail('');
+      setPhoneNumber(''); // Reset phone number field
+      setPassword('');
+      setConfirmPassword('');
+
+      alert(response.data.message); // Show success message
+      navigate('/club_dashboard/members'); // Navigate to members page
+    } catch (error) {
+      console.error('Error registering club member:', error);
+      alert(error.response?.data?.message || 'Error registering club member');
+    }
   };
 
   return (
@@ -73,6 +97,16 @@ const RegisterMember = ({ addMember }) => {
                 required
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <input
+                type="text"
+                required
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
@@ -123,7 +157,6 @@ const RegisterMember = ({ addMember }) => {
 
         <button
           type="submit"
-          onClick={handlMembers}
           className="w-full bg-black text-white p-3 rounded-md hover:bg-gray-800"
         >
           Submit Request
@@ -138,6 +171,10 @@ const RegisterMember = ({ addMember }) => {
       </form>
     </div>
   );
+};
+
+RegisterMember.propTypes = {
+  addMember: PropTypes.func.isRequired,
 };
 
 export default RegisterMember;

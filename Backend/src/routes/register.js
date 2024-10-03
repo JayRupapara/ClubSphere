@@ -105,7 +105,7 @@ router.post('/student_register', async (req, res) => {
             ]
         );
 
-        res.status(201).json({ message: 'Student registered successfully', student_id: result[0].id });
+        res.status(200).json({ message: 'Student registered successfully', student_id: result[0].id });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
