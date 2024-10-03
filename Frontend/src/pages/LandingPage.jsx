@@ -1,7 +1,8 @@
 // LandingPage.jsx
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavbarLandingPage"; // Ensure the path is correct
-import img from "../assets/laptopScreen.png"; // Ensure the path is correct
+import img1 from "../assets/laptopScreen.png"; // Ensure the path is correct
+import img2 from "../assets/laptopScreen2.png"; // Ensure the path is correct
 
 
 const LandingPage = () => {
@@ -17,13 +18,13 @@ const LandingPage = () => {
   <div className="relative flex-shrink-0 w-4/12">
     {/* First Image (Top-Right) */}
     <img 
-      src={img} 
+      src={img1} 
       alt="Dashboard 1" 
       className="relative right-10 top-[-10rem]"
     />
     {/* Second Image (Bottom-Left) */}
     <img 
-      src={img} 
+      src={img2} 
       alt="Dashboard 2 " 
       className="absolute left-24 top-[5rem]"
     />
