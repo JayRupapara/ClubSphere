@@ -20,7 +20,7 @@ const SignInStudent = () => {
         password,
       });
 
-      localStorage.setItem('jwtToken', response.data.token);
+      localStorage.setItem('token', response.data.token);
       navigate('/student_dashboard');
     } catch (err) {
       if (err.response) {

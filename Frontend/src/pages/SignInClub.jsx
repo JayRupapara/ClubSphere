@@ -37,7 +37,7 @@ const SignInClub = () => {
         const { token } = response.data; // Assuming the JWT token is returned in the response
 
         // Store the token in local storage
-        localStorage.setItem('jwtToken', token);
+        localStorage.setItem('token', token);
 
         setSuccessMessage('Signed in successfully! Redirecting...');
         // Redirect to a club dashboard or another page after successful login

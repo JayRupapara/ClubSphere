@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -27,6 +28,8 @@ const ClubEvents = () => {
         const token = localStorage.getItem('token');
 
         // Make the GET request to fetch events
+        console.log(token);
+        
         const response = await axios.get('http://localhost:3000/api/club/events', {
           headers: {
             Authorization: `Bearer ${token}`
@@ -36,7 +39,8 @@ const ClubEvents = () => {
         // Set the retrieved events to the state
         setEvents(response.data.events);
       } catch (error) {
-        console.error("Error fetching events:", error);
+        console.error('Error fetching events:', error);
+        alert('Failed to load events. Please try again later.');
       }
     };
 
@@ -67,10 +71,17 @@ const ClubEvents = () => {
     e.preventDefault();
 
     // Validate if all required fields are filled
-    if (!newEvent.event_name || !newEvent.event_type || !newEvent.participation_capacity ||
-        !newEvent.registration_last_date || !newEvent.event_date || !newEvent.event_start_time ||
-        !newEvent.event_end_time || !newEvent.venue) {
-      alert("Please fill out all required fields.");
+    if (
+      !newEvent.event_name ||
+      !newEvent.event_type ||
+      !newEvent.participation_capacity ||
+      !newEvent.registration_last_date ||
+      !newEvent.event_date ||
+      !newEvent.event_start_time ||
+      !newEvent.event_end_time ||
+      !newEvent.venue
+    ) {
+      alert('Please fill out all required fields.');
       return;
     }
 
@@ -89,7 +100,7 @@ const ClubEvents = () => {
         event_date: newEvent.event_date,
         event_start_time: newEvent.event_start_time,
         event_end_time: newEvent.event_end_time,
-        venue: newEvent.venue,
+        venue: newEvent.venue
       };
 
       // Make the POST request to register the new event
@@ -153,37 +164,42 @@ const ClubEvents = () => {
 
         {/* Event Cards */}
         <div className="space-y-6">
-          {/* Map through events to dynamically add event cards */}
-          {events.map((event, index) => (
-            <div key={index} className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
-              <img src={event.event_banner || "https://via.placeholder.com/500"} alt={event.event_name} className="w-40 h-40 rounded-2xl" />
-              <div className="flex-grow">
-                <h2 className="font-bold text-xl">{event.event_name}</h2>
-                <p className="text-gray-500">{event.description}</p>
-                <div className="mt-4 flex space-x-4">
-                  <div className="flex items-center">
-                    <i className="fas fa-map-marker-alt text-gray-500 mr-2"></i>
-                    <p className="text-gray-500">{event.venue}</p>
+          {/* Display fetched events */}
+          {events.length > 0 ? (
+            events.map((event, index) => (
+              <div key={index} className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
+                <img src={event.event_banner || 'https://via.placeholder.com/500'} alt={event.event_name} className="w-40 h-40 rounded-2xl" />
+                <div className="flex-grow">
+                  <h2 className="font-bold text-xl">{event.event_name}</h2>
+                  <p className="text-gray-500">{event.description || 'No description available'}</p>
+                  <div className="mt-4 flex space-x-4">
+                    <div className="flex items-center">
+                      <i className="fas fa-map-marker-alt text-gray-500 mr-2"></i>
+                      <p className="text-gray-500">{event.venue}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <i className="fas fa-clock text-gray-500 mr-2"></i>
+                      <p className="text-gray-500">
+                        {`${new Date(event.event_start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${new Date(event.event_end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
+                      </p>
+                    </div>
+                    <div className="flex items-center">
+                      <i className="fas fa-users text-gray-500 mr-2"></i>
+                      <p className="text-gray-500">{event.participation_count || 0} Participants</p>
+                    </div>
+                    <div className="flex items-center">
+                      <i className="fas fa-calendar-alt text-gray-500 mr-2"></i>
+                      <p className="text-gray-500">Registration Last Date: {new Date(event.registration_last_date).toLocaleDateString()}</p>
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <i className="fas fa-clock text-gray-500 mr-2"></i>
-                    <p className="text-gray-500">{`${new Date(event.event_start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${new Date(event.event_end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`}</p>
-                  </div>
-                  <div className="flex items-center">
-                    <i className="fas fa-users text-gray-500 mr-2"></i>
-                    <p className="text-gray-500">{event.participation_count || 0} Participants</p>
-                  </div>
-                  <div className="flex items-center">
-                    <i className="fas fa-calendar-alt text-gray-500 mr-2"></i>
-                    <p className="text-gray-500">Registration Last Date: {new Date(event.registration_last_date).toLocaleDateString()}</p>
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <button className="px-4 py-2 bg-blue-500 text-white rounded-2xl">Register</button>
                 </div>
               </div>
+            ))
+          ) : (
+            <div className="text-center py-4">
+              <p>No events available.</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
 
@@ -193,7 +209,6 @@ const ClubEvents = () => {
         <div className="bg-white p-6 shadow-md rounded-2xl mb-6">
           <p className="font-bold text-lg mb-4">Events Summary</p>
           <div className="mt-4 space-y-4">
-            {/* Placeholder for summary data */}
             <div className="flex items-center justify-between bg-red-100 rounded-2xl px-4 py-3">
               <p className="font-bold text-2xl">{events.length}</p>
               <p className="text-md font-semibold">Total Events</p>
@@ -215,17 +230,18 @@ const ClubEvents = () => {
       {/* Modal for adding new event */}
       {showModal && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 shadow-md rounded-lg w-96">
+          <div className="bg-white p-6 shadow-md rounded-xl w-fit">
             <h2 className="font-bold text-lg">Add New Event</h2>
             <form onSubmit={handleSubmit}>
-              <input 
+ <div className="flex gap-2">
+ <input 
                 type="text" 
                 name="event_name" 
                 value={newEvent.event_name} 
                 onChange={handleChange} 
                 placeholder="Event Name" 
                 required 
-                className="w-full p-2 border rounded mt-2" 
+                className="w-full p-2 border rounded-xl mt-2" 
               />
               <input 
                 type="text" 
@@ -234,22 +250,24 @@ const ClubEvents = () => {
                 onChange={handleChange} 
                 placeholder="Event Type" 
                 required 
-                className="w-full p-2 border rounded mt-2" 
+                className="w-full p-2 border rounded-xl mt-2" 
               />
+ </div>
               <textarea 
                 name="description" 
                 value={newEvent.description} 
                 onChange={handleChange} 
                 placeholder="Description" 
-                className="w-full p-2 border rounded mt-2" 
+                className="w-full p-2 border rounded-xl mt-2" 
               />
-              <input 
+<div className="flex gap-2">
+<input 
                 type="text" 
                 name="event_banner" 
                 value={newEvent.event_banner} 
                 onChange={handleChange} 
                 placeholder="Event Banner URL" 
-                className="w-full p-2 border rounded mt-2" 
+                className="w-full p-2 border rounded-xl" 
               />
               <input 
                 type="number" 
@@ -258,40 +276,43 @@ const ClubEvents = () => {
                 onChange={handleChange} 
                 placeholder="Participation Capacity" 
                 required 
-                className="w-full p-2 border rounded mt-2" 
+                className="w-full p-2 border rounded-xl" 
               />
-              <input 
+</div>
+<div className="flex gap-2 items-center">
+<input 
                 type="date" 
                 name="registration_last_date" 
                 value={newEvent.registration_last_date} 
                 onChange={handleChange} 
                 required 
-                className="w-full p-2 border rounded mt-2" 
-              />
+                className="w-full p-2 border rounded-xl mt-2" 
+              /> <p className='mt-2'>To</p>
               <input 
                 type="date" 
                 name="event_date" 
                 value={newEvent.event_date} 
                 onChange={handleChange} 
                 required 
-                className="w-full p-2 border rounded mt-2" 
+                className="w-full p-2 border rounded-xl mt-2" 
               />
-              <input 
+</div>
+<div className="flex gap-2 items-center">              <input 
                 type="time" 
                 name="event_start_time" 
                 value={newEvent.event_start_time} 
                 onChange={handleChange} 
                 required 
-                className="w-full p-2 border rounded mt-2" 
-              />
+                className="w-full p-2 border rounded-xl mt-2" 
+              /> <p className='mt-2'>To</p>
               <input 
                 type="time" 
                 name="event_end_time" 
                 value={newEvent.event_end_time} 
                 onChange={handleChange} 
                 required 
-                className="w-full p-2 border rounded mt-2" 
-              />
+                className="w-full p-2 border rounded-xl mt-2" 
+              /></div>
               <input 
                 type="text" 
                 name="venue" 
@@ -299,18 +320,18 @@ const ClubEvents = () => {
                 onChange={handleChange} 
                 placeholder="Venue" 
                 required 
-                className="w-full p-2 border rounded mt-2" 
+                className="w-full p-2 border rounded-xl mt-2" 
               />
               <button 
                 type="submit" 
-                className="w-full bg-blue-500 text-white py-2 rounded mt-4"
+                className="w-full bg-blue-500 text-white py-2 rounded-xl mt-4"
               >
                 Submit
               </button>
               <button 
                 type="button" 
                 onClick={handleCloseModal} 
-                className="w-full bg-gray-300 py-2 rounded mt-2"
+                className="w-full bg-gray-300 py-2 rounded-xl mt-2"
               >
                 Cancel
               </button>
