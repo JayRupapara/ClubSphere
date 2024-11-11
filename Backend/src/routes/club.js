@@ -233,7 +233,7 @@ router.post('/club_member_register', club_verifyToken, async (req, res) => {
   }
 });
 // const query = (text, params) => pool.query(text, params);
-router.post('/club_event_register', async (req, res) => {
+router.post('/club_event_register', club_verifyToken, async (req, res) => {
   try {
     const {
       event_name,
@@ -255,15 +255,25 @@ router.post('/club_event_register', async (req, res) => {
     }
 
     // Check if an event with the same name already exists
-    const existingEvent = await query('SELECT * FROM club_event WHERE event_name = $1', [event_name]);
+    const existingEvent = await pool.query('SELECT * FROM club_event WHERE event_name = $1', [event_name]);
     if (existingEvent.rows.length > 0) {
       return res.status(409).json({ message: 'Event already registered' });
     }
 
+    // Use club_id from the verified token (attached by middleware)
+    const club_id = req.user.club_id;
+
     // Insert new event into the club_event table
-    const result = await query(
-      'INSERT INTO club_event (event_name, event_type, description, event_banner, participation_capacity, registration_last_date, event_date, event_start_time, event_end_time, venue) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING event_id',
-      [event_name, event_type, description, event_banner, participation_capacity, registration_last_date, event_date, event_start_time, event_end_time, venue]
+    const result = await pool.query(
+      `INSERT INTO club_event (event_name, event_type, description, event_banner, 
+       participation_capacity, registration_last_date, event_date, event_start_time, 
+       event_end_time, venue, club_id) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING event_id`,
+      [
+        event_name, event_type, description, event_banner, participation_capacity, 
+        registration_last_date, event_date, event_start_time, event_end_time, 
+        venue, club_id
+      ]
     );
 
     // Return success response with the new event ID
@@ -276,6 +286,8 @@ router.post('/club_event_register', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
 
 
 
