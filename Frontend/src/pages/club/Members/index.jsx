@@ -14,7 +14,7 @@ const ClubMembers = () => {
         const token = localStorage.getItem("token");
 
         // Make an API request with Authorization header
-        const response = await axios.get("/members", {
+        const response = await axios.get('', {
           headers: {
             Authorization: `Bearer ${token}`, // Include the Bearer token
           },
