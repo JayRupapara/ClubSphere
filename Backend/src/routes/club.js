@@ -62,38 +62,39 @@ router.get('/club/dashboard/:club_id', club_verifyToken, async (req, res) => {
 
 // GET /club/members
 router.get('/members', club_verifyToken, async (req, res) => {
-    const club_id = req.user.club_id;
-  
-    const queryText = `
-      SELECT 
-        s.first_name, 
-        s.last_name, 
-        s.email, 
-        MIN(se.event_id) AS join_date
-      FROM 
-        student s
-      JOIN 
-        student_event se 
-      ON 
-        s.student_id = se.student_id
-      WHERE 
-        se.club_id = $1 
-        AND se.action = 'subscribed'
-      GROUP BY 
-        s.student_id;
-    `;
-  
-    try {
-        const result = await query(queryText, [club_id]);
-        if (result.rows.length === 0) {
-            return res.status(404).json({ message: 'No subscribed members found for this club' });
-        }
-        res.json({ members: result.rows });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Database error' });
-    }
+  const club_id = req.user.club_id;
+
+  const queryText = `
+    SELECT 
+      s.first_name, 
+      s.last_name, 
+      s.email, 
+      MIN(se.join_date) AS join_date -- Use the join_date from student_event table
+    FROM 
+      student s
+    JOIN 
+      student_event se 
+    ON 
+      s.student_id = se.student_id
+    WHERE 
+      se.club_id = $1 
+      AND se.action = 'subscribed' -- Only select subscribed members
+    GROUP BY 
+      s.student_id, s.first_name, s.last_name, s.email; -- Ensure all selected columns are in GROUP BY
+  `;
+
+  try {
+      const result = await query(queryText, [club_id]);
+      if (result.rows.length === 0) {
+          return res.status(404).json({ message: 'No subscribed members found for this club' });
+      }
+      res.json({ members: result.rows });
+  } catch (err) {
+      console.error('Database error:', err);
+      res.status(500).json({ error: 'Database error' });
+  }
 });
+
 
 // GET /club/events
 router.get('/events', club_verifyToken, async (req, res) => {
@@ -199,39 +200,42 @@ router.post('/eventsByDateTime', club_verifyToken, async (req, res) => {
 
 router.post('/club_member_register', club_verifyToken, async (req, res) => {
   try {
-      const { name, role, skills_interest, email, phone_number, password } = req.body;
+    const { name, role, skills_interest, email, phone_number, password } = req.body;
 
-      // Validate required fields
-      if (!name || !role || !email || !phone_number || !password) {
-          return res.status(400).json({ message: 'Missing required fields' });
-      }
+    // Validate required fields
+    if (!name || !role || !email || !phone_number || !password) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
 
-      // Check if email already exists in the database
-      const existingUserQuery = 'SELECT * FROM club_member WHERE email = $1';
-      const existingUser = await pool.query(existingUserQuery, [email]);
+    // Check if email already exists in the database
+    const existingUserQuery = 'SELECT * FROM club_member WHERE email = $1';
+    const existingUser = await pool.query(existingUserQuery, [email]);
 
-      if (existingUser.rows.length > 0) {
-          return res.status(409).json({ message: 'Email already registered' });
-      }
+    if (existingUser.rows.length > 0) {
+      return res.status(409).json({ message: 'Email already registered' });
+    }
 
-      // Hash password before saving it to the database
-      // const hashedPassword = await bcrypt.hash(password, 10);
+    // Use club_id from the verified token
+    const club_id = req.user.club_id;
+    console.log(club_id);
+    
 
-      // Insert new member into the database
-      const insertQuery = `
-        INSERT INTO club_member (name, role, skills_interest, email, phone_number, password) 
-        VALUES ($1, $2, $3, $4, $5, $6) RETURNING member_id
-      `;
-      const result = await pool.query(insertQuery, [name, role, skills_interest, email, phone_number, password]);
+    // Insert new member into the database with club_id
+    const insertQuery = `
+      INSERT INTO club_member (name, role, skills_interest, email, phone_number, password, club_id) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING member_id
+    `;
+    const result = await pool.query(insertQuery, [name, role, skills_interest, email, phone_number, password, club_id]);
 
-      // Return success response
-      res.status(200).json({ message: 'Club Member registered successfully', member_id: result.rows[0].member_id });
+    // Return success response
+    res.status(200).json({ message: 'Club Member registered successfully', member_id: result.rows[0].member_id });
 
   } catch (error) {
-      console.error('Error in registration:', error); // Log the error for debugging
-      res.status(500).json({ message: 'Internal server error' });
+    console.error('Error in registration:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 // const query = (text, params) => pool.query(text, params);
 router.post('/club_event_register', club_verifyToken, async (req, res) => {
   try {
