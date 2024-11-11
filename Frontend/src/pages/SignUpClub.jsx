@@ -174,7 +174,7 @@ const SignUpClub = () => {
               className="w-full bg-black text-white py-2 rounded-2xl hover:bg-gray-500 transition"
               type="submit"
             >
-              Submit Request
+              Register
             </button>
           </form>
 
