@@ -1,71 +1,99 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios for API calls
+import axios from 'axios';
 
-const RegisterMember = ({ addMember }) => {
-  const [name, setName] = useState('');
-  const [role, setRole] = useState('');
-  const [skills, setSkills] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState(''); // Added phone number field
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const RegisterMember = () => {
+  // State for form inputs
+  const [formData, setFormData] = useState({
+    name: '',
+    role: '',
+    skills: '',
+    email: '',
+    phoneNumber: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  // State for loading and errors
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
+  // Update form state on input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Navigate to sign-in page
   const handleSignInRedirect = () => {
     navigate('/club_dashboard/signin');
   };
 
+  // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
+    setError(''); // Clear previous errors
+
+    // Basic validation
+    if (formData.password !== formData.confirmPassword) {
       alert("Passwords don't match");
       return;
     }
 
     try {
-      // Get the JWT token from localStorage (assuming it's stored after login)
-      const token = localStorage.getItem('token');
+      setIsLoading(true); // Set loading state
 
-      // Make the API call to register the club member
-      const response = await axios.post('/club_member_register', 
+      // Fetch token from localStorage (assuming token management after login)
+      const token = localStorage.getItem('token');
+      console.log(token);
+
+      // Make the API call
+      const response = await axios.post('http://localhost:3000/api/club/club_member_register',
         {
-          name, 
-          role, 
-          skills_interest: skills, 
-          email, 
-          phone_number: phoneNumber, 
-          password 
+          name: formData.name,
+          role: formData.role,
+          skills_interest: formData.skills,
+          email: formData.email,
+          phone_number: formData.phoneNumber,
+          password: formData.password
         },
         {
           headers: {
-            'Authorization': `Bearer ${token}` // Pass the JWT token in the header
+            'Authorization': `Bearer ${token}` // Authorization header with token
           }
         }
       );
-      
-      // After successful registration, reset form fields and navigate
-      setName('');
-      setRole('');
-      setSkills('');
-      setEmail('');
-      setPhoneNumber(''); // Reset phone number field
-      setPassword('');
-      setConfirmPassword('');
 
-      alert(response.data.message); // Show success message
-      navigate('/club_dashboard/members'); // Navigate to members page
-    } catch (error) {
-      console.error('Error registering club member:', error);
-      alert(error.response?.data?.message || 'Error registering club member');
+      // Handle success response
+      alert(response.data.message);
+
+      // Reset form inputs
+      setFormData({
+        name: '',
+        role: '',
+        skills: '',
+        email: '',
+        phoneNumber: '',
+        password: '',
+        confirmPassword: ''
+      });
+
+      // Redirect to members page
+      navigate('/club_dashboard/members');
+    } catch (err) {
+      console.error('Error registering club member:', err);
+      setError(err.response?.data?.message || 'Error registering club member');
+    } finally {
+      setIsLoading(false); // Reset loading state
     }
   };
 
   return (
     <div className="container mx-auto p-6 bg-gray-100">
       <h2 className="mb-6 text-3xl font-bold text-center">Register New Club Member</h2>
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg space-y-6">
         <div>
           <h3 className="text-xl font-semibold mb-2">Basic Information</h3>
@@ -74,9 +102,10 @@ const RegisterMember = ({ addMember }) => {
               <label className="block text-sm font-medium text-gray-700">Name</label>
               <input
                 type="text"
+                name="name"
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.name}
+                onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
@@ -84,9 +113,10 @@ const RegisterMember = ({ addMember }) => {
               <label className="block text-sm font-medium text-gray-700">Role</label>
               <input
                 type="text"
+                name="role"
                 required
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
+                value={formData.role}
+                onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
@@ -94,9 +124,10 @@ const RegisterMember = ({ addMember }) => {
               <label className="block text-sm font-medium text-gray-700">Skills/Interests</label>
               <input
                 type="text"
+                name="skills"
                 required
-                value={skills}
-                onChange={(e) => setSkills(e.target.value)}
+                value={formData.skills}
+                onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
@@ -104,9 +135,10 @@ const RegisterMember = ({ addMember }) => {
               <label className="block text-sm font-medium text-gray-700">Phone Number</label>
               <input
                 type="text"
+                name="phoneNumber"
                 required
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={formData.phoneNumber}
+                onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
@@ -115,17 +147,16 @@ const RegisterMember = ({ addMember }) => {
 
         <div>
           <h3 className="text-xl font-semibold mb-2">Contact Details</h3>
-          <div className="gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email Address</label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              required
+              value={formData.email}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            />
           </div>
         </div>
 
@@ -136,9 +167,10 @@ const RegisterMember = ({ addMember }) => {
               <label className="block text-sm font-medium text-gray-700">Password</label>
               <input
                 type="password"
+                name="password"
                 required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
@@ -146,9 +178,10 @@ const RegisterMember = ({ addMember }) => {
               <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
               <input
                 type="password"
+                name="confirmPassword"
                 required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
@@ -158,8 +191,9 @@ const RegisterMember = ({ addMember }) => {
         <button
           type="submit"
           className="w-full bg-black text-white p-3 rounded-md hover:bg-gray-800"
+          disabled={isLoading}
         >
-          Submit Request
+          {isLoading ? 'Submitting...' : 'Submit Request'}
         </button>
 
         <p className="text-center mt-4 text-sm">
@@ -171,10 +205,6 @@ const RegisterMember = ({ addMember }) => {
       </form>
     </div>
   );
-};
-
-RegisterMember.propTypes = {
-  addMember: PropTypes.func.isRequired,
 };
 
 export default RegisterMember;
