@@ -30,8 +30,8 @@ const ClubHeader = () => {
         <div className="flex items-center justify-center">
           <img
             className="h-10 mx-1 rounded-lg"
-            src="https://media.licdn.com/dms/image/v2/D5603AQH5Cs-BkrXJIw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1709876697797?e=1729123200&v=beta&t=B5C-KZpwXrlxoS9_EbJSwl-G7pnsaVqL05CVg3cqoJE"
-            alt="te"
+            src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"
+            alt=""
           />
           <div className="mx-2">
             <p>Jeel Patel</p>

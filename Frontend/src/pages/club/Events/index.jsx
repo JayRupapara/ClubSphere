@@ -168,7 +168,7 @@ const ClubEvents = () => {
           {events.length > 0 ? (
             events.map((event, index) => (
               <div key={index} className="bg-white p-6 shadow-md rounded-2xl flex items-center space-x-6">
-                <img src={event.event_banner || 'https://via.placeholder.com/500'} alt={event.event_name} className="w-40 h-40 rounded-2xl" />
+                <img src={event.event_banner || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTG1iqwOy6_N7-EehwODK_TDAiCQM_8cQnzpfDnqH-d3GDmHpQAAFa6NUv93lSNfRDVSI&usqp=CAU'} alt={event.event_name} className="w-40 h-40 rounded-2xl" />
                 <div className="flex-grow">
                   <h2 className="font-bold text-xl">{event.event_name}</h2>
                   <p className="text-gray-500">{event.description || 'No description available'}</p>
@@ -220,7 +220,7 @@ const ClubEvents = () => {
         <div className="bg-white p-6 shadow-md rounded-2xl">
           <p className="font-bold text-lg">Promotion</p>
           <img
-            src="https://via.placeholder.com/500x900"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH6XO2X5A8MgTHP2bbeWnP1v4RDb9L2IIR6g&s"
             alt="Promotion"
             className="w-full h-64 rounded-2xl mt-4"
           />

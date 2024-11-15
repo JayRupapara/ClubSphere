@@ -2,6 +2,18 @@ import axios from "axios";
 import { Chart } from "chart.js";
 import React, { useEffect, useRef, useState } from "react";
 
+const Spinner = () => (
+  /* From Uiverse.io by bociKond */
+  <div class="spinner">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+);
+
 const StudentHome = () => {
   const [showModal, setShowModal] = useState(false);
   const [events, setEvents] = useState([]);
@@ -96,7 +108,11 @@ const StudentHome = () => {
 
   return (
     <div className="flex justify-between bg-gray-100">
-      {loading && <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">Loading...</div>}
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+          <Spinner />
+        </div>
+      )}
       <div className="w-9/12 p-4">
         <div className="flex flex-col items-center gap-4 bg-gray-100 min-h-screen">
           <div className="w-full max-w-4xl space-y-6">
@@ -104,7 +120,7 @@ const StudentHome = () => {
               events.map((event, idx) => (
                 <div key={idx} className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
                   <div className="w-full md:w-1/3">
-                    <img src={event.image} alt={event.title} className="object-cover w-full h-full" />
+                    <img src={event.image} alt={event.title} className="object-fill w-full h-full" />
                   </div>
                   <div className="flex flex-col justify-between p-6 space-y-4 w-full md:w-2/3">
                     <div>
@@ -126,11 +142,10 @@ const StudentHome = () => {
                     </div>
                     <div>
                       <button
-                        className={`px-6 py-2 rounded ${
-                          attendedEvents.includes(event.title)
-                            ? "bg-gray-400 text-white cursor-not-allowed"
-                            : "bg-blue-500 text-white hover:bg-blue-600"
-                        }`}
+                        className={`px-6 py-2 rounded ${attendedEvents.includes(event.title)
+                          ? "bg-gray-400 text-white cursor-not-allowed"
+                          : "bg-blue-500 text-white hover:bg-blue-600"
+                          }`}
                         onClick={() => handleAttendNow(event.clubName, event.title)}
                         disabled={attendedEvents.includes(event.title)}
                       >
@@ -155,7 +170,7 @@ const StudentHome = () => {
         </div>
         <div className="bg-white p-6 shadow-md rounded-2xl">
           <p className="font-bold text-lg">Promotion</p>
-          <img src="https://via.placeholder.com/500x900" alt="Promotion" className="mt-4 w-full rounded-2xl" />
+          <img src="https://pbs.twimg.com/media/FXCa47KacAAqVsv.jpg" alt="Promotion" className="mt-4 w-full rounded-2xl" />
         </div>
       </div>
     </div>
