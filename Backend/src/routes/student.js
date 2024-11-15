@@ -80,7 +80,7 @@ router.get('/getClubsByStudentEvent', student_verifyToken, async (req, res) => {
   }
 
   const query = `
-    SELECT cu.club_id, cu.name AS club_name
+    SELECT DISTINCT cu.club_id, cu.name AS club_name
     FROM student_event se
     JOIN club_user cu ON se.club_id = cu.club_id
     WHERE se.student_id = $1;
@@ -212,5 +212,54 @@ router.get('/getClubDetailsByStudentEvent', student_verifyToken, async (req, res
     res.status(500).json({ error: 'Database error' });
   }
 });
+
+
+
+
+router.post('/attendnow', student_verifyToken, async (req, res) => {
+  const { club_name, event_name, action = 'subscribed' } = req.body;
+  const join_date = new Date(); // Current date as the join date
+  const student_id = req.user.student_id;
+
+  try {
+    // Get club_id based on club_name
+    const clubQuery = 'SELECT club_id FROM club_user WHERE name = $1';
+    const clubResult = await pool.query(clubQuery, [club_name]);
+    if (clubResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Club not found' });
+    }
+    const club_id = clubResult.rows[0].club_id;
+
+    // Get event_id based on event_name
+    const eventQuery = 'SELECT event_id FROM club_event WHERE event_name = $1';
+    const eventResult = await pool.query(eventQuery, [event_name]);
+    if (eventResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    const event_id = eventResult.rows[0].event_id;
+
+    // Insert into attendance table
+    const insertQuery = `
+      INSERT INTO student_event (club_id, event_id, student_id, action, join_date)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *
+    `;
+    const insertResult = await pool.query(insertQuery, [
+      club_id,
+      event_id,
+      student_id,
+      action,
+      join_date,
+    ]);
+
+    res.status(201).json(insertResult.rows[0]);
+  } catch (error) {
+    console.error('Error handling attendnow:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
 
 module.exports = router;

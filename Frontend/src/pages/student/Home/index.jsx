@@ -3,58 +3,73 @@ import React, { useEffect, useRef, useState } from "react";
 
 const StudentHome = () => {
   const [showModal, setShowModal] = useState(false);
-  const [events, setEvents] = useState([
-    {
-      title: "AWS Cloud Infrastructure Camp",
-      description:
-        "About AWS Cloud Infrastructure Camp events and more details",
-      venue: "DEPSTAR, Seminar Hall (329)",
-      time: "10:30 AM",
-      duration: "2 Hours",
-      participants: 67,
-      image: "https://via.placeholder.com/500",
-      rating: 5,
-    },
-  ]);
-
-  // States for new event form inputs
-  const [newEvent, setNewEvent] = useState({
-    title: "",
-    description: "",
-    venue: "",
-    time: "",
-    duration: "",
-    participants: "",
-    image: "",
-  });
+  const [events, setEvents] = useState([]);
+  const [attendedEvents, setAttendedEvents] = useState([]); // Track attended events
 
   const popularDomainsChartRef = useRef(null);
-  // Open Modal
-  const handleAddEvent = () => {
-    setShowModal(true);
+
+  // Fetch data from the API
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/student/events");
+        if (!response.ok) {
+          throw new Error("Failed to fetch events");
+        }
+        const data = await response.json();
+        // Transforming API data to suit the existing structure
+        const formattedEvents = data.map((event) => ({
+          title: event.event_name,
+          description: event.description,
+          venue: event.venue,
+          time: `${event.event_date.split("T")[0]} | ${event.event_start_time}`,
+          duration: `${parseFloat(event.duration).toFixed(2)} Hours`,
+          participants: "N/A", // Assuming participant data is not available
+          image: "https://via.placeholder.com/500", // Replace with actual image URL if available
+          clubName: event.club_name,
+        }));
+        setEvents(formattedEvents);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  // Handle "Attend Now" button click
+  const handleAttendNow = async (clubName, eventName) => {
+    try {
+      const response = await fetch("http://localhost:3000/api/student/attendnow", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          club_name: clubName,
+          event_name: eventName,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setAttendedEvents((prev) => [...prev, eventName]); // Add eventName to attended list
+        console.log("Event attendance successful:", data);
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to attend event:", errorData.message);
+      }
+    } catch (error) {
+      console.error("Error attending event:", error);
+    }
   };
 
-  // Close Modal
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  // Handle input change for the new event form
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewEvent((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
+  // Chart setup remains unchanged
   useEffect(() => {
     if (popularDomainsChartRef.current) {
       popularDomainsChartRef.current.destroy();
     }
-    const popularDomainsChartElement = document.getElementById(
-      "popularDomainsChart"
-    );
+    const popularDomainsChartElement = document.getElementById("popularDomainsChart");
     if (popularDomainsChartElement) {
       const popularDomainsCtx = popularDomainsChartElement.getContext("2d");
       popularDomainsChartRef.current = new Chart(popularDomainsCtx, {
@@ -77,27 +92,8 @@ const StudentHome = () => {
       });
     }
 
-    // Handle the form submission
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      if (newEvent.title && newEvent.venue && newEvent.time) {
-        setEvents([...events, newEvent]); // Add new event to the list
-        setShowModal(false); // Close the modal after submission
-        setNewEvent({
-          title: "",
-          description: "",
-          venue: "",
-          time: "",
-          duration: "",
-          participants: "",
-          image: "",
-        }); // Reset the form
-      }
-    };
-
     return () => {
-      if (popularDomainsChartRef.current)
-        popularDomainsChartRef.current.destroy();
+      if (popularDomainsChartRef.current) popularDomainsChartRef.current.destroy();
     };
   }, []);
 
@@ -105,64 +101,71 @@ const StudentHome = () => {
     <div className="flex justify-between bg-gray-100">
       {/* Left section: Filters and event list */}
       <div className="w-9/12 p-4">
-        {/* Apply Filters Section */}
         <div className="flex flex-col items-center gap-4 bg-gray-100 min-h-screen">
-          {/* Cloud Camp Cards */}
           <div className="w-full max-w-4xl space-y-6">
-            {/* Card */}
-            {[1, 2].map((_, idx) => (
-              <div
-                key={idx}
-                className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden"
-              >
-                {/* Image */}
-                <div className="w-full md:w-1/3">
-                  <img
-                    src="https://your-image-url-here.com/aws-reinvent.png"
-                    alt="AWS re:Invent"
-                    className="object-cover w-full h-full"
-                  />
-                </div>
+            {events.length > 0 ? (
+              events.map((event, idx) => (
+                <div
+                  key={idx}
+                  className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden"
+                >
+                  {/* Image */}
+                  <div className="w-full md:w-1/3">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
 
-                {/* Event Info */}
-                <div className="flex flex-col justify-between p-6 space-y-4 w-full md:w-2/3">
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-900">
-                      AWS Cloud Infrastructure Camp
-                    </h2>
-                    <p className="text-gray-500 mt-2">
-                      About AWS Cloud Infrastructure Camp events and more
-                      details
-                    </p>
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center text-gray-700">
-                      <span className="material-icons-outlined mr-2">
-                        location_on
-                      </span>
-                      <span>DEPSTAR, Seminar Hall (329)</span>
+                  {/* Event Info */}
+                  <div className="flex flex-col justify-between p-6 space-y-4 w-full md:w-2/3">
+                    <div>
+                      <h2 className="text-2xl font-bold text-gray-900">
+                        {event.title}
+                      </h2>
+                      <p className="text-gray-500 mt-2">{event.description}</p>
                     </div>
-                    <div className="flex items-center text-gray-700">
-                      <span className="material-icons-outlined mr-2">
-                        schedule
-                      </span>
-                      <span>25-09-2024 | 10:30 AM</span>
+                    <div className="flex flex-col space-y-2">
+                      <div className="flex items-center text-gray-700">
+                        <span className="material-icons-outlined mr-2">
+                          location_on
+                        </span>
+                        <span>{event.venue}</span>
+                      </div>
+                      <div className="flex items-center text-gray-700">
+                        <span className="material-icons-outlined mr-2">
+                          schedule
+                        </span>
+                        <span>{event.time}</span>
+                      </div>
+                      <div className="flex items-center text-gray-700">
+                        <span>Duration: {event.duration}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center text-gray-700">
-                      <span className="material-icons-outlined mr-2">
-                        hourglass_empty
-                      </span>
-                      <span>Duration: 2 Hours</span>
+                    <div>
+                      <button
+                        className={`px-6 py-2 rounded ${
+                          attendedEvents.includes(event.title)
+                            ? "bg-gray-400 text-white cursor-not-allowed"
+                            : "bg-blue-500 text-white hover:bg-blue-600"
+                        }`}
+                        onClick={() =>
+                          handleAttendNow(event.clubName, event.title)
+                        }
+                        disabled={attendedEvents.includes(event.title)}
+                      >
+                        {attendedEvents.includes(event.title)
+                          ? "Attended"
+                          : "Attend Now"}
+                      </button>
                     </div>
-                  </div>
-                  <div>
-                    <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                      Attend Now
-                    </button>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-center text-gray-500">No events available.</p>
+            )}
           </div>
         </div>
       </div>
