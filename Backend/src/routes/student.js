@@ -51,6 +51,7 @@ router.get('/events', async (req, res) => {
         e.venue, 
         e.event_start_time, 
         e.event_date,
+        e.event_banner, -- Include the event_banner column
         EXTRACT(EPOCH FROM (e.event_end_time - e.event_start_time)) / 3600 AS duration
       FROM 
         club_event e
@@ -64,12 +65,14 @@ router.get('/events', async (req, res) => {
       return res.status(404).json({ message: 'No events found.' });
     }
 
+    // Optionally map over results to process URLs or other transformations
     res.status(200).json(results);
   } catch (error) {
     console.error('Error fetching events:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 router.get('/getClubsByStudentEvent', student_verifyToken, async (req, res) => {
