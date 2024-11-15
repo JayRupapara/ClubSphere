@@ -79,7 +79,7 @@ router.get('/getClubsByStudentEvent', student_verifyToken, async (req, res) => {
   }
 
   const query = `
-    SELECT cu.club_id, cu.name AS club_name
+    SELECT DISTINCT cu.club_id, cu.name AS club_name
     FROM student_event se
     JOIN club_user cu ON se.club_id = cu.club_id
     WHERE se.student_id = $1;
