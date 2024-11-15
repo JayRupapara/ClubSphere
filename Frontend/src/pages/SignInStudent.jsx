@@ -11,6 +11,26 @@ const SignInStudent = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await axios.post('http://localhost:3000/api/login/student_sign_in', {
+  //       email,
+  //       password,
+  //     });
+
+  //     localStorage.setItem('token', response.data.token);
+  //     navigate('/student_dashboard');
+  //   } catch (err) {
+  //     if (err.response) {
+  //       setError(err.response.data.message);
+  //     } else {
+  //       setError('An error occurred. Please try again later.');
+  //     }
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -20,8 +40,14 @@ const SignInStudent = () => {
         password,
       });
 
-      localStorage.setItem('token', response.data.token);
-      navigate('/student_dashboard');
+      // Store token securely
+      const token = response.data.token;
+      if (token) {
+        localStorage.setItem('token', token);
+        navigate('/student_dashboard');
+      } else {
+        throw new Error('Token not received');
+      }
     } catch (err) {
       if (err.response) {
         setError(err.response.data.message);
@@ -30,6 +56,7 @@ const SignInStudent = () => {
       }
     }
   };
+
 
   return (
     <div>
