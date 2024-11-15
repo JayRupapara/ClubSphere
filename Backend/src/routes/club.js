@@ -138,6 +138,7 @@ router.get('/events', club_verifyToken, async (req, res) => {
   const queryText = `
       SELECT 
         ce.event_name, 
+        ce.event_banner, -- Include the event_banner column
         ce.description, 
         ce.venue, 
         ce.event_date, 
@@ -167,6 +168,8 @@ router.get('/events', club_verifyToken, async (req, res) => {
     res.status(500).json({ error: 'Database error' });
   }
 });
+
+
 
 // GET /club/past-events
 router.get('/past-events', club_verifyToken, async (req, res) => {
@@ -417,64 +420,56 @@ router.post('/club_event_register', club_verifyToken, async (req, res) => {
 //     }
 // });
 
-router.get('/dashboard', (req, res) => {
-  const clubId = req.query.club_id;
+router.get('/dashboard', club_verifyToken, async (req, res) => {
+  const clubId = req.user.club_id;
 
-  // Query to get total events
-  const totalEventsQuery = `
-    SELECT COUNT(*) AS total_events
-    FROM club_event
-    WHERE club_id = ${clubId};
-  `;
+  if (!clubId) {
+    return res.status(400).json({ error: 'Missing club ID' });
+  }
 
-  // Query to get total participants
-  const totalParticipantsQuery = `
-    SELECT COUNT(*) AS total_participants
-    FROM student_event
-    WHERE club_id = ${clubId};
-  `;
+  const queries = {
+    totalEventsQuery: `
+      SELECT COUNT(*) AS total_events
+      FROM club_event
+      WHERE club_id = $1;
+    `,
+    totalParticipantsQuery: `
+      SELECT COUNT(*) AS total_participants
+      FROM student_event
+      WHERE club_id = $1;
+    `,
+    upcomingEventsQuery: `
+      SELECT COUNT(*) AS upcoming_events
+      FROM club_event
+      WHERE club_id = $1 AND event_date > CURRENT_DATE;
+    `,
+    newUsersQuery: `
+      SELECT COUNT(*) AS new_users
+      FROM student
+      WHERE CURRENT_DATE - created_at <= INTERVAL '30 DAYS';
+    `,
+  };
 
-  // Query to get upcoming events
-  const upcomingEventsQuery = `
-    SELECT COUNT(*) AS upcoming_events
-    FROM club_event
-    WHERE club_id = ${clubId} AND event_date > CURDATE();
-  `;
+  try {
+    const [totalEvents, totalParticipants, upcomingEvents, newUsers] = await Promise.all([
+      pool.query(queries.totalEventsQuery, [clubId]),
+      pool.query(queries.totalParticipantsQuery, [clubId]),
+      pool.query(queries.upcomingEventsQuery, [clubId]),
+      pool.query(queries.newUsersQuery),
+    ]);
 
-  // Query to get new users (registered within the last 30 days)
-  const newUsersQuery = `
-    SELECT COUNT(*) AS new_users
-    FROM student
-    WHERE DATEDIFF(CURDATE(), created_at) <= 30;
-  `;
-
-  // Execute all queries asynchronously
-  query(totalEventsQuery, (err, totalEventsResult) => {
-    if (err) return res.status(500).send(err);
-
-    query(totalParticipantsQuery, (err, totalParticipantsResult) => {
-      if (err) return res.status(500).send(err);
-
-      query(upcomingEventsQuery, (err, upcomingEventsResult) => {
-        if (err) return res.status(500).send(err);
-
-        query(newUsersQuery, (err, newUsersResult) => {
-          if (err) return res.status(500).send(err);
-
-          // Construct the response
-          const response = {
-            totalEvents: totalEventsResult[0].total_events,
-            totalParticipants: totalParticipantsResult[0].total_participants,
-            upcomingEvents: upcomingEventsResult[0].upcoming_events,
-            newUsers: newUsersResult[0].new_users,
-          };
-
-          res.json(response);
-        });
-      });
+    res.json({
+      totalEvents: totalEvents.rows[0].total_events,
+      totalParticipants: totalParticipants.rows[0].total_participants,
+      upcomingEvents: upcomingEvents.rows[0].upcoming_events,
+      newUsers: newUsers.rows[0].new_users,
     });
-  });
+  } catch (error) {
+    console.error('Error fetching dashboard data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
+
 
 
 
