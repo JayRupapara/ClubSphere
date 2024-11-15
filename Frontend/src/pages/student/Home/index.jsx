@@ -27,7 +27,7 @@ const StudentHome = () => {
           time: `${event.event_date.split("T")[0]} | ${event.event_start_time}`,
           duration: `${parseFloat(event.duration).toFixed(2)} Hours`,
           participants: "N/A",
-          image: "https://via.placeholder.com/500",
+          image: event.event_banner,
           clubName: event.club_name,
         }));
         setEvents(formattedEvents);
