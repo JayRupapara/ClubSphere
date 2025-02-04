@@ -39,56 +39,87 @@ router.get('/club/dashboard/:club_id', club_verifyToken, async (req, res) => {
 
   // Query for club dashboard details
   const queryText = `
-      SELECT cu.name AS club_name, 
-             COUNT(DISTINCT ce.event_id) AS total_hosted_events, 
-             COUNT(CASE WHEN ce.event_date >= CURRENT_DATE THEN 1 END) AS scheduled_events,
-             COUNT(DISTINCT se.student_id) AS total_members,
-             MIN(ce.event_date) AS next_event_time
-      FROM club_user cu
-      LEFT JOIN club_event ce ON cu.club_id = ce.club_id
-      LEFT JOIN student_event se ON cu.club_id = se.club_id
-      WHERE cu.club_id = $1
-      GROUP BY cu.name;
-    `;
+      SELECT 
+          cu.name AS club_name, 
+          COUNT(DISTINCT ce.event_id) AS total_hosted_events, 
+          COUNT(*) FILTER (WHERE ce.event_date >= CURRENT_DATE) AS scheduled_events,
+          COUNT(DISTINCT cm.member_id) AS total_members,
+          MIN(ce.event_date) AS next_event_time
+      FROM 
+          club_user cu
+      LEFT JOIN 
+          club_event ce ON cu.club_id = ce.club_id
+      LEFT JOIN 
+          club_member cm ON cu.club_id = cm.club_id
+      WHERE 
+          cu.club_id = $1
+      GROUP BY 
+          cu.name;
+  `;
 
-  const lastMonthEvents = `SELECT 
-    COUNT(CASE WHEN DATE_TRUNC('month', ce.event_date) = DATE_TRUNC('month', CURRENT_DATE) 
-               THEN 1 END) AS current_month_participate,
-    COUNT(CASE WHEN DATE_TRUNC('month', ce.event_date) = DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' 
-               THEN 1 END) AS last_month_participate
-FROM 
-    student_event se
-JOIN 
-    club_event ce ON se.event_id = ce.event_id
-WHERE 
-    ce.club_id = $1;`
+  const lastMonthEvents = `
+    SELECT 
+        COUNT(CASE WHEN DATE_TRUNC('month', ce.event_date) = DATE_TRUNC('month', CURRENT_DATE) THEN 1 END) AS current_month_participate,
+        COUNT(CASE WHEN DATE_TRUNC('month', ce.event_date) = DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' THEN 1 END) AS last_month_participate
+    FROM 
+        student_event se
+    JOIN 
+        club_event ce ON se.event_id = ce.event_id
+    WHERE 
+        ce.club_id = $1;
+  `;
 
-  // const totalParticipantsQuery = `
-  //   SELECT COUNT(*) AS total_participants
-  //   FROM student_event
-  //   WHERE club_id = ${club_id};
-  // `;
+  // Query for total participants
+  const totalParticipantsQuery = `
+    SELECT COUNT(*) AS total_participants
+    FROM student_event se
+    WHERE se.club_id = $1;
+  `;
 
-  // Query to get upcoming events
+  // Query for upcoming events
   const upcomingEventsQuery = `
     SELECT COUNT(*) AS upcoming_events
     FROM club_event
-    WHERE club_id = ${club_id} AND event_date > CURDATE();
+    WHERE club_id = $1 AND event_date > CURRENT_DATE;
   `;
 
-  // // Query to get new users (registered within the last 30 days)
+  // Query for new users (students who joined in the last 30 days)
   // const newUsersQuery = `
   //   SELECT COUNT(*) AS new_users
-  //   FROM student
-  //   WHERE DATEDIFF(CURDATE(), created_at) <= 30;
+  //   FROM club_user
+  //   WHERE DATEDIFF(CURRENT_DATE, created_at) <= 30;
   // `;
 
   try {
+    // Execute all queries concurrently
     const result = await query(queryText, [club_id]);
-    const result1= await query(lastMonthEvents, [club_id])
+    const result1 = await query(lastMonthEvents, [club_id]);
+    const result2 = await query(totalParticipantsQuery, [club_id]);
+    const result3 = await query(upcomingEventsQuery, [club_id]);
+    // const result4 = await query(newUsersQuery);
+
+    // Ensure that the result contains data before accessing
     if (result.rows.length === 0) return res.status(404).json({ message: 'Club not found' });
-    res.json({ dashboard: result.rows[0] });
-    res.json({ lastMonthEvents: result1.rows[0] });
+
+    const dashboardData = result.rows[0];
+    const lastMonthData = result1.rows[0];
+    const totalParticipantsData = result2.rows[0];
+    const upcomingEventsData = result3.rows[0];
+    // const newUsersData = result4.rows[0];
+
+    // Check if any query result is undefined
+    if (!dashboardData || !lastMonthData || !totalParticipantsData || !upcomingEventsData) {
+      return res.status(500).json({ error: 'Some data is missing from the database' });
+    }
+
+    // Return the data as a JSON response
+    res.json({
+      dashboard: dashboardData,
+      lastMonthEvents: lastMonthData,
+      totalParticipants: totalParticipantsData,
+      upcomingEvents: upcomingEventsData,
+      // newUsers: newUsersData,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database error' });
@@ -119,14 +150,14 @@ router.get('/members', club_verifyToken, async (req, res) => {
   `;
 
   try {
-      const result = await query(queryText, [club_id]);
-      if (result.rows.length === 0) {
-          return res.status(404).json({ message: 'No subscribed members found for this club' });
-      }
-      res.json({ members: result.rows });
+    const result = await query(queryText, [club_id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No subscribed members found for this club' });
+    }
+    res.json({ members: result.rows });
   } catch (err) {
-      console.error('Database error:', err);
-      res.status(500).json({ error: 'Database error' });
+    console.error('Database error:', err);
+    res.status(500).json({ error: 'Database error' });
   }
 });
 
@@ -256,7 +287,7 @@ router.post('/club_member_register', club_verifyToken, async (req, res) => {
     // Use club_id from the verified token
     const club_id = req.user.club_id;
     console.log(club_id);
-    
+
 
     // Insert new member into the database with club_id
     const insertQuery = `
