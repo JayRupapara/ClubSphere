@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavbarLandingPage"; // Ensure the path is correct
-import img1 from "../assets/laptopScreen.png"; // Ensure the path is correct
-import img2 from "../assets/laptopScreen2.png"; // Ensure the path is correct
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -15,12 +13,12 @@ const LandingPage = () => {
         {/* Right Side: Dashboard Images */}
         <div className="relative flex-shrink-0 w-full md:w-4/12 mb-8 md:mb-0">
           <img 
-            src={img1} 
+            src="https://via.placeholder.com/800x450" 
             alt="Dashboard 1" 
             className="relative md:right-10 md:top-[-10rem] w-11/12 mx-auto"
           />
           <img 
-            src={img2} 
+            src="https://via.placeholder.com/800x450" 
             alt="Dashboard 2" 
             className="absolute md:left-24 top-[2rem] md:top-[5rem] w-10/12 mx-auto"
           />
