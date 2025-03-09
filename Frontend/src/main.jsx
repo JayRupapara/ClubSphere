@@ -14,7 +14,7 @@ import Error404 from './pages/Error404.jsx';
 
 import ClubHome from './pages/club/Home/index.jsx';
 import ClubLayout from './dashboards/ClubLayout.jsx';
-import ClubMembers from './pages/club/members/index.jsx';
+import ClubMembers from './pages/club/Members/index.jsx';
 import ClubEvents from './pages/club/Events/index.jsx';
 import ClubMessages from './pages/club/Messages/index.jsx';
 import ClubSettings from './pages/club/Settings/index.jsx';
