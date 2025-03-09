@@ -1,7 +1,5 @@
 # ClubSphere
 
-![ClubSphere Banner](https://club-sphere-jayrupaparas-projects.vercel.app/banner.png)
-
 ClubSphere is a **modern, interactive portfolio website** built using the **MERN stack** with **React, Vite, and Tailwind CSS** for the frontend and **Spring Boot with MongoDB** for the backend. The site features smooth animations, a responsive UI, and dynamic content to showcase projects and skills.
 
 ## 🚀 Live Demo
