@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavbarLandingPage"; // Ensure the path is correct
+import img1 from "../assets/LaptopScreen.png"; // Correct capitalization
+import img2 from "../assets/LaptopScreen2.png"; // Correct capitalization
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -9,16 +11,16 @@ const LandingPage = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center w-5/6 mx-auto justify-between pt-10 md:pt-40">
+      <section className="flex flex-col md:flex-row items-center w-5/6 mx-auto justify-between pt-10 md:pt-40 md:min-h-[600px]">
         {/* Right Side: Dashboard Images */}
         <div className="relative flex-shrink-0 w-full md:w-4/12 mb-8 md:mb-0">
           <img 
-            src="https://via.placeholder.com/800x450" 
+            src={img1} 
             alt="Dashboard 1" 
             className="relative md:right-10 md:top-[-10rem] w-11/12 mx-auto"
           />
           <img 
-            src="https://via.placeholder.com/800x450" 
+            src={img2} 
             alt="Dashboard 2" 
             className="absolute md:left-24 top-[2rem] md:top-[5rem] w-10/12 mx-auto"
           />
